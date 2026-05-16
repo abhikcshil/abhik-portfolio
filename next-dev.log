@@ -1,0 +1,26 @@
+
+> abhik-portfolio@0.1.0 dev
+> next dev
+
+▲ Next.js 16.1.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://100.94.108.29:3000
+
+✓ Starting...
+Creating turbopack project {
+  dir: 'C:\\Users\\abhik\\Documents\\GitHub\\AbhiksPortfolio\\abhik-portfolio',
+  testMode: true
+}
+✓ Ready in 1167ms
+ GET / 200 in 879ms (compile: 695ms, render: 184ms)
+ GET / 200 in 58ms (compile: 6ms, render: 52ms)
+ GET / 200 in 60ms (compile: 5ms, render: 56ms)
+ GET / 200 in 261ms (compile: 158ms, render: 104ms)
+✓ Compiled in 83ms
+ GET / 200 in 312ms (compile: 119ms, render: 193ms)
+✓ Compiled in 99ms
+ GET / 200 in 146ms (compile: 94ms, render: 52ms)
+ GET / 200 in 143ms (compile: 101ms, render: 42ms)
+✓ Compiled in 67ms
+ GET / 200 in 157ms (compile: 97ms, render: 60ms)
+[?25h

@@ -1,0 +1,44 @@
+⨯ TypeError: Cannot read properties of undefined (reading 'core')
+    at DomainPlanet (src\components\home\DomainPlanet.tsx:31:94)
+  29 |         <span className="planet-upright absolute inset-0 block">
+  30 |           <span
+> 31 |             className={`absolute inset-0 rounded-full border bg-gradient-to-br ${domain.tone.core} ${domain.tone.rim} shadow-2xl ${domain.tone.shadow} transition duration-300 group-hover:scale-110 group-hover:border-white/70 group-focus-visible:scale-110 group-focus-visible:border-white/80`}
+     |                                                                                              ^
+  32 |           />
+  33 |           <span className="absolute inset-[18%] rounded-full bg-white/12 blur-[1px]" />
+  34 |           <span className="absolute left-[18%] top-[14%] h-[22%] w-[30%] rounded-full bg-white/35 blur-[3px]" /> {
+  digest: '3095289776'
+}
+⨯ TypeError: Cannot read properties of undefined (reading 'core')
+    at DomainPlanet (src\components\home\DomainPlanet.tsx:31:94)
+  29 |         <span className="planet-upright absolute inset-0 block">
+  30 |           <span
+> 31 |             className={`absolute inset-0 rounded-full border bg-gradient-to-br ${domain.tone.core} ${domain.tone.rim} shadow-2xl ${domain.tone.shadow} transition duration-300 group-hover:scale-110 group-hover:border-white/70 group-focus-visible:scale-110 group-focus-visible:border-white/80`}
+     |                                                                                              ^
+  32 |           />
+  33 |           <span className="absolute inset-[18%] rounded-full bg-white/12 blur-[1px]" />
+  34 |           <span className="absolute left-[18%] top-[14%] h-[22%] w-[30%] rounded-full bg-white/35 blur-[3px]" /> {
+  digest: '3095289776'
+}
+⨯ TypeError: Cannot read properties of undefined (reading 'core')
+    at DomainPlanet (src\components\home\DomainPlanet.tsx:31:94)
+  29 |         <span className="planet-upright absolute inset-0 block">
+  30 |           <span
+> 31 |             className={`absolute inset-0 rounded-full border bg-gradient-to-br ${domain.tone.core} ${domain.tone.rim} shadow-2xl ${domain.tone.shadow} transition duration-300 group-hover:scale-110 group-hover:border-white/70 group-focus-visible:scale-110 group-focus-visible:border-white/80`}
+     |                                                                                              ^
+  32 |           />
+  33 |           <span className="absolute inset-[18%] rounded-full bg-white/12 blur-[1px]" />
+  34 |           <span className="absolute left-[18%] top-[14%] h-[22%] w-[30%] rounded-full bg-white/35 blur-[3px]" /> {
+  digest: '3095289776'
+}
+⨯ TypeError: Cannot read properties of undefined (reading 'core')
+    at DomainPlanet (src\components\home\DomainPlanet.tsx:31:94)
+  29 |         <span className="planet-upright absolute inset-0 block">
+  30 |           <span
+> 31 |             className={`absolute inset-0 rounded-full border bg-gradient-to-br ${domain.tone.core} ${domain.tone.rim} shadow-2xl ${domain.tone.shadow} transition duration-300 group-hover:scale-110 group-hover:border-white/70 group-focus-visible:scale-110 group-focus-visible:border-white/80`}
+     |                                                                                              ^
+  32 |           />
+  33 |           <span className="absolute inset-[18%] rounded-full bg-white/12 blur-[1px]" />
+  34 |           <span className="absolute left-[18%] top-[14%] h-[22%] w-[30%] rounded-full bg-white/35 blur-[3px]" /> {
+  digest: '3095289776'
+}
