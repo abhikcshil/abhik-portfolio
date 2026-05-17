@@ -1,16 +1,15 @@
 "use client";
 
 import { useEffect, useMemo, useState, type CSSProperties } from "react";
-import type { Domain } from "@/src/data/domains";
-import type { ProjectMoon as ProjectMoonData } from "@/src/data/projects";
+import type { PortfolioDomain } from "@/src/data/portfolio";
+import { getMoonLayout, getPublicProjectsForDomain } from "@/src/lib/portfolio";
 import { getOrbitAngle, getOrbitUnitPosition } from "./orbitMath";
 import { PlanetVisual } from "./PlanetVisual";
 import { ProjectMoon } from "./ProjectMoon";
 import { DEFAULT_SCENE_SIZE, getSceneSize } from "./sceneSizing";
 
 type DomainSystemViewProps = {
-  domain: Domain;
-  moons: ProjectMoonData[];
+  domain: PortfolioDomain;
   onBack: () => void;
   isVisible: boolean;
   reduceMotion: boolean;
@@ -18,7 +17,6 @@ type DomainSystemViewProps = {
 
 export function DomainSystemView({
   domain,
-  moons,
   onBack,
   isVisible,
   reduceMotion,
@@ -58,15 +56,29 @@ export function DomainSystemView({
   const systemScale = Math.max(0.86, Math.min(sceneSize / 870, 1.22));
   const centralSize = Math.max(148, Math.min(sceneSize * 0.225, 208));
   const labelVisibility = sceneSize < 600 ? "compact" : "full";
+  const projects = useMemo(
+    () => getPublicProjectsForDomain(domain.id),
+    [domain.id]
+  );
+  const moonLayouts = useMemo(
+    () =>
+      projects.map((project, index) =>
+        getMoonLayout({
+          project,
+          domainId: domain.id,
+          index,
+          total: projects.length,
+        })
+      ),
+    [domain.id, projects]
+  );
 
   const orbitRadii = useMemo(
     () =>
       Array.from(
-        new Set(
-          moons.map((moon) => Math.round(moon.orbitRadius * systemScale))
-        )
+        new Set(moonLayouts.map((moon) => Math.round(moon.orbitRadius * systemScale)))
       ).sort((a, b) => a - b),
-    [moons, systemScale]
+    [moonLayouts, systemScale]
   );
 
   return (
@@ -127,14 +139,15 @@ export function DomainSystemView({
           </span>
         </div>
 
-        {moons.map((moon, index) => {
-          const orbitRadius = moon.orbitRadius * systemScale;
+        {projects.map((project, index) => {
+          const layout = moonLayouts[index];
+          const orbitRadius = layout.orbitRadius * systemScale;
           const angle =
-            reduceMotion || !moon.orbitDuration
-              ? moon.initialAngle
+            reduceMotion || !layout.orbitDuration
+              ? layout.initialAngle
               : getOrbitAngle(
-                  moon.initialAngle,
-                  moon.orbitDuration,
+                  layout.initialAngle,
+                  layout.orbitDuration,
                   elapsedSeconds
                 );
           const position = getOrbitUnitPosition(angle);
@@ -145,8 +158,9 @@ export function DomainSystemView({
 
           return (
             <ProjectMoon
-              key={moon.id}
-              moon={{ ...moon, moonSize: moon.moonSize * systemScale }}
+              key={`${domain.id}:${project.slug}`}
+              project={project}
+              layout={{ ...layout, moonSize: layout.moonSize * systemScale }}
               x={x}
               y={y}
               index={index}

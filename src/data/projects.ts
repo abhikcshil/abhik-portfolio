@@ -1,10 +1,12 @@
-import type { DomainId } from "./domains";
+import {
+  getMoonLayout,
+  getPublicDomains,
+  getPublicProjectsForDomain,
+  type PortfolioProject,
+  type ProjectStatus,
+} from "@/src/lib/portfolio";
 
-export type ProjectMoonStatus =
-  | "live"
-  | "building"
-  | "concept"
-  | "coursework";
+export type ProjectMoonStatus = ProjectStatus;
 
 export type ProjectMoon = {
   id: string;
@@ -19,253 +21,38 @@ export type ProjectMoon = {
   status?: ProjectMoonStatus;
 };
 
-export const projectMoonsByDomain: Record<DomainId, ProjectMoon[]> = {
-  software: [
-    {
-      id: "antix",
-      label: "AnTix",
-      href: "/projects/antix",
-      description: "Ticketing and event operations tooling.",
-      orbitRadius: 148,
-      orbitDuration: 68,
-      moonSize: 34,
-      initialAngle: -18,
-      color: "rgba(56, 189, 248, 0.84)",
-      status: "live",
-    },
-    {
-      id: "tranquility",
-      label: "Tranquility",
-      href: "/projects/tranquility",
-      description: "Calm-focused product design and build work.",
-      orbitRadius: 184,
-      orbitDuration: 82,
-      moonSize: 30,
-      initialAngle: 62,
-      color: "rgba(125, 211, 252, 0.86)",
-      status: "building",
-    },
-    {
-      id: "spotisync-app",
-      label: "SpotiSync",
-      href: "/projects/spotisync-app",
-      description: "Playlist and sync workflow software.",
-      orbitRadius: 210,
-      orbitDuration: 96,
-      moonSize: 28,
-      initialAngle: 156,
-      color: "rgba(34, 197, 94, 0.82)",
-      status: "concept",
-    },
-    {
-      id: "flexpos",
-      label: "FlexPOS",
-      href: "/projects/flexpos",
-      description: "Point-of-sale system experiments.",
-      orbitRadius: 166,
-      orbitDuration: 74,
-      moonSize: 26,
-      initialAngle: 232,
-      color: "rgba(96, 165, 250, 0.8)",
-      status: "coursework",
-    },
-    {
-      id: "studyduel",
-      label: "StudyDuel",
-      href: "/projects/studyduel",
-      description: "Competitive study and quiz tooling.",
-      orbitRadius: 230,
-      orbitDuration: 112,
-      moonSize: 24,
-      initialAngle: 308,
-      color: "rgba(14, 165, 233, 0.76)",
-      status: "concept",
-    },
-  ],
-  hardware: [
-    {
-      id: "soulframe",
-      label: "SoulFrame",
-      href: "/projects/soulframe",
-      description: "Embedded frame and interactive hardware system.",
-      orbitRadius: 144,
-      orbitDuration: 66,
-      moonSize: 34,
-      initialAngle: 16,
-      color: "rgba(251, 191, 36, 0.84)",
-      status: "live",
-    },
-    {
-      id: "tshcloud",
-      label: "TSHCloud",
-      href: "/projects/tshcloud",
-      description: "Hardware telemetry and control ideas.",
-      orbitRadius: 184,
-      orbitDuration: 84,
-      moonSize: 28,
-      initialAngle: 86,
-      color: "rgba(250, 204, 21, 0.82)",
-      status: "building",
-    },
-    {
-      id: "pitch-trainer",
-      label: "Pitch Trainer",
-      href: "/projects/pitch-trainer",
-      description: "Arduino audio-feedback training device.",
-      orbitRadius: 217,
-      orbitDuration: 98,
-      moonSize: 24,
-      initialAngle: 170,
-      color: "rgba(245, 158, 11, 0.84)",
-      status: "coursework",
-    },
-    {
-      id: "qr-scanner",
-      label: "QR Scanner",
-      href: "/projects/qr-scanner",
-      description: "Attendance and check-in scanner hardware.",
-      orbitRadius: 166,
-      orbitDuration: 76,
-      moonSize: 26,
-      initialAngle: 242,
-      color: "rgba(252, 211, 77, 0.8)",
-      status: "building",
-    },
-    {
-      id: "camera-monitor-rig",
-      label: "Monitor Rig",
-      href: "/projects/camera-monitor-rig",
-      description: "Portable camera and monitor support rig.",
-      orbitRadius: 238,
-      orbitDuration: 116,
-      moonSize: 22,
-      initialAngle: 312,
-      color: "rgba(253, 224, 71, 0.76)",
-      status: "concept",
-    },
-  ],
-  music: [
-    {
-      id: "dj-events",
-      label: "DJ Events",
-      href: "/projects/dj-events",
-      description: "Live event sets and performance systems.",
-      orbitRadius: 148,
-      orbitDuration: 70,
-      moonSize: 34,
-      initialAngle: -10,
-      color: "rgba(244, 114, 182, 0.84)",
-      status: "live",
-    },
-    {
-      id: "library-workflow",
-      label: "Library Flow",
-      href: "/projects/library-workflow",
-      description: "Collection prep and playlist organization.",
-      orbitRadius: 182,
-      orbitDuration: 86,
-      moonSize: 28,
-      initialAngle: 64,
-      color: "rgba(236, 72, 153, 0.82)",
-      status: "building",
-    },
-    {
-      id: "event-audio",
-      label: "Audio Setup",
-      href: "/projects/event-audio",
-      description: "Signal flow and speaker deployment planning.",
-      orbitRadius: 215,
-      orbitDuration: 102,
-      moonSize: 24,
-      initialAngle: 146,
-      color: "rgba(217, 70, 239, 0.8)",
-      status: "live",
-    },
-    {
-      id: "lighting-fog",
-      label: "Lighting/Fog",
-      href: "/projects/lighting-fog",
-      description: "Atmosphere and lighting cue work.",
-      orbitRadius: 166,
-      orbitDuration: 78,
-      moonSize: 26,
-      initialAngle: 228,
-      color: "rgba(192, 132, 252, 0.8)",
-      status: "concept",
-    },
-    {
-      id: "music-library",
-      label: "Clean Library",
-      href: "/projects/music-library",
-      description: "Metadata and crate-cleaning workflow.",
-      orbitRadius: 238,
-      orbitDuration: 118,
-      moonSize: 22,
-      initialAngle: 302,
-      color: "rgba(249, 168, 212, 0.76)",
-      status: "building",
-    },
-  ],
-  visuals: [
-    {
-      id: "photography",
-      label: "Photography",
-      href: "/projects/photography",
-      description: "Portrait and event photography work.",
-      orbitRadius: 150,
-      orbitDuration: 72,
-      moonSize: 32,
-      initialAngle: 8,
-      color: "rgba(147, 197, 253, 0.84)",
-      status: "live",
-    },
-    {
-      id: "video-editing",
-      label: "Video Editing",
-      href: "/projects/video-editing",
-      description: "Narrative and event edit workflows.",
-      orbitRadius: 186,
-      orbitDuration: 88,
-      moonSize: 28,
-      initialAngle: 76,
-      color: "rgba(96, 165, 250, 0.84)",
-      status: "live",
-    },
-    {
-      id: "motion-art",
-      label: "Motion Art",
-      href: "/projects/motion-art",
-      description: "Animated visual experiments and motion pieces.",
-      orbitRadius: 217,
-      orbitDuration: 104,
-      moonSize: 24,
-      initialAngle: 162,
-      color: "rgba(129, 140, 248, 0.8)",
-      status: "concept",
-    },
-    {
-      id: "portfolio-site",
-      label: "Portfolio Site",
-      href: "/projects/portfolio-site",
-      description: "This interface and its surrounding design system.",
-      orbitRadius: 168,
-      orbitDuration: 80,
-      moonSize: 26,
-      initialAngle: 236,
-      color: "rgba(191, 219, 254, 0.84)",
-      status: "building",
-    },
-    {
-      id: "camera-rig",
-      label: "Camera Rig",
-      href: "/projects/camera-rig",
-      description: "Gear layout and capture support workflow.",
-      orbitRadius: 238,
-      orbitDuration: 120,
-      moonSize: 22,
-      initialAngle: 312,
-      color: "rgba(165, 180, 252, 0.76)",
-      status: "coursework",
-    },
-  ],
-};
+function toLegacyProjectMoon(
+  project: PortfolioProject,
+  domainId: string,
+  index: number,
+  total: number
+): ProjectMoon {
+  const layout = getMoonLayout({ project, domainId, index, total });
+
+  return {
+    id: project.slug,
+    label: layout.displayLabel,
+    href: `/projects/${project.slug}`,
+    description: project.summary,
+    orbitRadius: layout.orbitRadius,
+    orbitDuration: layout.orbitDuration,
+    moonSize: layout.moonSize,
+    initialAngle: layout.initialAngle,
+    color: layout.color ?? project.visual?.moonColor,
+    status: project.status,
+  };
+}
+
+export const projectMoonsByDomain: Record<string, ProjectMoon[]> =
+  Object.fromEntries(
+    getPublicDomains().map((domain) => {
+      const projects = getPublicProjectsForDomain(domain.id);
+
+      return [
+        domain.id,
+        projects.map((project, index) =>
+          toLegacyProjectMoon(project, domain.id, index, projects.length)
+        ),
+      ];
+    })
+  );

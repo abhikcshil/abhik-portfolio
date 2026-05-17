@@ -1,16 +1,14 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { projectMoonsByDomain } from "@/src/data/projects";
+import { getPublicProjectBySlug } from "@/src/lib/portfolio";
 
 type ProjectPageProps = {
   params: Promise<{ slug: string }>;
 };
 
-const allProjects = Object.values(projectMoonsByDomain).flat();
-
 export default async function ProjectPage({ params }: ProjectPageProps) {
   const { slug } = await params;
-  const project = allProjects.find((entry) => entry.id === slug);
+  const project = getPublicProjectBySlug(slug);
 
   if (!project) {
     notFound();
@@ -23,10 +21,10 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           Project Placeholder
         </p>
         <h1 className="mt-4 text-4xl font-semibold tracking-tight">
-          {project.label}
+          {project.title}
         </h1>
         <p className="mt-5 max-w-2xl text-base leading-7 text-slate-300">
-          {project.description} This placeholder route keeps project moon links
+          {project.summary} This placeholder route keeps project moon links
           working while the full project pages are still being designed.
         </p>
         <Link

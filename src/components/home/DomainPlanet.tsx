@@ -8,22 +8,21 @@ import {
   type KeyboardEvent,
   type MouseEvent,
 } from "react";
-import type { Domain } from "@/src/data/domains";
+import type { DomainId, PortfolioDomain } from "@/src/data/portfolio";
 import { getOrbitAngle, getOrbitUnitPosition } from "./orbitMath";
 import { PlanetTrail } from "./PlanetTrail";
 import { PlanetVisual } from "./PlanetVisual";
 import { DEFAULT_SCENE_SIZE, getSceneSize } from "./sceneSizing";
 
 type DomainPlanetProps = {
-  domain: Domain;
-  onOpenDomain?: (
-    domainId: string,
-    focusPoint: { x: number; y: number }
-  ) => void;
+  domain: PortfolioDomain;
+  onOpenDomain?: (domainId: DomainId, focusPoint: { x: number; y: number }) => void;
 };
 
 export function DomainPlanet({ domain, onOpenDomain }: DomainPlanetProps) {
-  const [currentAngle, setCurrentAngle] = useState(domain.initialAngle);
+  const [currentAngle, setCurrentAngle] = useState(
+    domain.visual.initialAngle ?? 0
+  );
   const [sceneSize, setSceneSize] = useState(DEFAULT_SCENE_SIZE);
 
   useEffect(() => {
@@ -50,7 +49,11 @@ export function DomainPlanet({ domain, onOpenDomain }: DomainPlanetProps) {
     function tick(now: number) {
       const elapsed = (now - startTime) / 1000;
       setCurrentAngle(
-        getOrbitAngle(domain.initialAngle, domain.orbitDuration, elapsed)
+        getOrbitAngle(
+          domain.visual.initialAngle ?? 0,
+          domain.visual.orbitDuration ?? 1,
+          elapsed
+        )
       );
 
       frameId = requestAnimationFrame(tick);
@@ -59,10 +62,10 @@ export function DomainPlanet({ domain, onOpenDomain }: DomainPlanetProps) {
     frameId = requestAnimationFrame(tick);
 
     return () => cancelAnimationFrame(frameId);
-  }, [domain.initialAngle, domain.orbitDuration]);
+  }, [domain.visual.initialAngle, domain.visual.orbitDuration]);
 
   const orbitPosition = getOrbitUnitPosition(currentAngle);
-  const orbitRadius = sceneSize * (domain.orbitRadius / 100);
+  const orbitRadius = sceneSize * ((domain.visual.orbitRadius ?? 0) / 100);
   const planetPoint = {
     x: orbitPosition.x * orbitRadius,
     y: orbitPosition.y * orbitRadius,
@@ -112,7 +115,7 @@ export function DomainPlanet({ domain, onOpenDomain }: DomainPlanetProps) {
           "--planet-rim": domain.visual.rim,
           "--planet-glow": domain.visual.glow,
           "--planet-label": domain.visual.label,
-          zIndex: domain.zIndexHint,
+          zIndex: domain.visual.zIndexHint,
         } as CSSProperties
       }
     >
@@ -129,7 +132,10 @@ export function DomainPlanet({ domain, onOpenDomain }: DomainPlanetProps) {
             : `Go to ${domain.label}`
         }
         className="planet-link group rounded-full outline-none"
-        style={{ width: domain.planetSize, height: domain.planetSize }}
+        style={{
+          width: domain.visual.planetSize ?? 44,
+          height: domain.visual.planetSize ?? 44,
+        }}
         onClick={handleClick}
         onKeyDown={handleKeyDown}
       >

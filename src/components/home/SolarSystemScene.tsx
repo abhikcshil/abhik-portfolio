@@ -1,13 +1,16 @@
 "use client";
 
 import { useEffect, useMemo, useState, type CSSProperties } from "react";
+import type { DomainId } from "@/src/data/portfolio";
+import {
+  getPublicDomainById,
+  getPublicDomains,
+} from "@/src/lib/portfolio";
 import { CenterCore } from "./CenterCore";
 import { DomainPlanet } from "./DomainPlanet";
 import { DomainSystemView } from "./DomainSystemView";
 import { OrbitRing } from "./OrbitRing";
 import { Starfield } from "./Starfield";
-import { domains } from "@/src/data/domains";
-import { projectMoonsByDomain } from "@/src/data/projects";
 
 type FocusPoint = {
   x: number;
@@ -17,7 +20,10 @@ type FocusPoint = {
 const DETAIL_EXIT_DURATION_MS = 680;
 
 export function SolarSystemScene() {
-  const [selectedDomainId, setSelectedDomainId] = useState<string | null>(null);
+  const domains = useMemo(() => getPublicDomains(), []);
+  const [selectedDomainId, setSelectedDomainId] = useState<DomainId | null>(
+    null
+  );
   const [isDomainFocused, setIsDomainFocused] = useState(false);
   const [focusPoint, setFocusPoint] = useState<FocusPoint>({ x: 0, y: 0 });
   const [reduceMotion, setReduceMotion] = useState(false);
@@ -33,16 +39,22 @@ export function SolarSystemScene() {
   }, []);
 
   const selectedDomain = useMemo(
-    () => domains.find((domain) => domain.id === selectedDomainId) ?? null,
+    () => (selectedDomainId ? getPublicDomainById(selectedDomainId) : null),
     [selectedDomainId]
   );
 
-  function handleOpenDomain(domainId: string, nextFocusPoint: FocusPoint) {
+  function handleOpenDomain(domainId: DomainId, nextFocusPoint: FocusPoint) {
     if (selectedDomainId) {
       return;
     }
 
-    setSelectedDomainId(domainId);
+    const nextDomain = getPublicDomainById(domainId);
+
+    if (!nextDomain) {
+      return;
+    }
+
+    setSelectedDomainId(nextDomain.id);
     setFocusPoint(nextFocusPoint);
 
     if (reduceMotion) {
@@ -126,7 +138,6 @@ export function SolarSystemScene() {
             >
               <DomainSystemView
                 domain={selectedDomain}
-                moons={projectMoonsByDomain[selectedDomain.id]}
                 onBack={handleCloseDomain}
                 isVisible={isDomainFocused}
                 reduceMotion={reduceMotion}

@@ -1,36 +1,99 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Abhik C. Shil Portfolio
 
-## Getting Started
+This repository contains Abhik C. Shil's Portfolio, built with Next.js,
+TypeScript, and Tailwind CSS. The public experience uses an interactive
+solar-system UI where domains are planets and projects are moons, while the
+data layer is structured for a future GitHub-only private admin/CMS.
 
-First, run the development server:
+## Current Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Cinematic solar-system homepage
+- Central sun with Abhik C. Shil's name
+- Orbiting domain planets with attached trails
+- Zoom-in domain view with animated project moons
+- Project routes powered by a reusable, data-driven content model
+- CMS-ready portfolio structure with public and CMS helper layers
+- GitHub-only admin/CMS foundation for protected read-only admin routes
+- Reduced-motion support
+- Responsive layout across desktop and mobile
+
+## Tech Stack
+
+- Next.js App Router
+- TypeScript
+- Tailwind CSS
+- CSS animations and transforms
+- Auth.js / NextAuth for GitHub-only admin authentication
+- Prisma / Postgres as a future direction only
+
+## Project Structure
+
+```text
+app/
+  admin/
+  api/
+  page.tsx
+  projects/
+  [domain]/
+src/
+  components/
+    admin/
+    home/
+  config/
+  data/
+    portfolio/
+  lib/
+    cms/
+    portfolio/
+  types/
+docs/
+auth.ts
+README.md
+AGENTS.md
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Development
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm install
+npm run dev
+npm run lint
+npm run build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Environment Variables
 
-## Learn More
+The GitHub-only admin/CMS foundation expects these variables when you want to
+use admin authentication locally or in production:
 
-To learn more about Next.js, take a look at the following resources:
+```env
+AUTH_SECRET=
+AUTH_GITHUB_ID=
+AUTH_GITHUB_SECRET=
+CMS_ADMIN_GITHUB_USERNAMES=
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+`CMS_ADMIN_GITHUB_USERNAMES` should be a comma-separated allowlist of GitHub
+usernames.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Content Model
 
-## Deploy on Vercel
+- Domains are the homepage planets.
+- Projects are moons shown inside focused domain views.
+- Projects can belong to multiple domains through domain placements.
+- Placement order controls moon distance from the center.
+- Public helpers filter visible content for the public Portfolio.
+- CMS helpers expose a broader read-only view for future admin work.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Documentation
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [AGENTS.md](AGENTS.md)
+- [Architecture](docs/ARCHITECTURE.md)
+- [Content Model](docs/CONTENT_MODEL.md)
+- [CMS Roadmap](docs/CMS_ROADMAP.md)
+- [Development](docs/DEVELOPMENT.md)
+
+## Status
+
+This is an actively evolving personal Portfolio. The public experience is live
+in code today, and the private GitHub-only admin/CMS is being built in phases.

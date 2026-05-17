@@ -2,11 +2,13 @@
 
 import Link from "next/link";
 import type { CSSProperties } from "react";
-import type { ProjectMoon } from "@/src/data/projects";
+import type { PortfolioProject } from "@/src/data/portfolio";
+import type { MoonLayout } from "@/src/lib/portfolio";
 import { PlanetVisual } from "./PlanetVisual";
 
 type ProjectMoonProps = {
-  moon: ProjectMoon;
+  project: PortfolioProject;
+  layout: MoonLayout;
   x: number;
   y: number;
   index: number;
@@ -24,19 +26,20 @@ function getMoonVisual(color: string) {
 }
 
 export function ProjectMoon({
-  moon,
+  project,
+  layout,
   x,
   y,
   index,
   isVisible,
   labelVisibility,
 }: ProjectMoonProps) {
-  const visual = getMoonVisual(moon.color ?? "rgba(148, 163, 184, 0.88)");
+  const visual = getMoonVisual(layout.color ?? "rgba(148, 163, 184, 0.88)");
 
   return (
     <Link
-      href={moon.href}
-      aria-label={`Open ${moon.label} project`}
+      href={`/projects/${project.slug}`}
+      aria-label={`Open ${layout.displayLabel} project`}
       className={`project-moon group absolute rounded-full outline-none ${
         isVisible ? "project-moon-visible" : ""
       }`}
@@ -47,8 +50,8 @@ export function ProjectMoon({
           "--planet-rim": visual.rim,
           "--planet-glow": visual.glow,
           "--planet-label": visual.rim,
-          width: `${moon.moonSize}px`,
-          height: `${moon.moonSize}px`,
+          width: `${layout.moonSize}px`,
+          height: `${layout.moonSize}px`,
           transform: `translate(-50%, -50%) translate(${x}px, ${y}px)`,
           transitionDelay: `${index * 48}ms`,
         } as CSSProperties
@@ -62,7 +65,7 @@ export function ProjectMoon({
             : "mt-3 text-[0.68rem] tracking-[0.14em]"
         }`}
       >
-        {moon.label}
+        {layout.displayLabel}
       </span>
     </Link>
   );

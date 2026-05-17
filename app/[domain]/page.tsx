@@ -1,14 +1,14 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { domains } from "@/src/data/domains";
+import { getPublicDomainBySlug } from "@/src/lib/portfolio";
 
 type DomainPageProps = {
   params: Promise<{ domain: string }>;
 };
 
 export default async function DomainPage({ params }: DomainPageProps) {
-  const { domain: domainId } = await params;
-  const domain = domains.find((entry) => entry.id === domainId);
+  const { domain: domainSlug } = await params;
+  const domain = getPublicDomainBySlug(domainSlug);
 
   if (!domain) {
     notFound();
@@ -24,8 +24,8 @@ export default async function DomainPage({ params }: DomainPageProps) {
           {domain.label}
         </h1>
         <p className="mt-5 max-w-2xl text-base leading-7 text-slate-300">
-          This fallback route exists so domain links still resolve outside the
-          homepage zoom interaction.
+          {domain.description} This fallback route exists so domain links still
+          resolve outside the homepage zoom interaction.
         </p>
         <Link
           href="/"

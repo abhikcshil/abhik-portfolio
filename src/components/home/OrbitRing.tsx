@@ -1,8 +1,8 @@
 import type { CSSProperties } from "react";
-import type { Domain } from "@/src/data/domains";
+import type { PortfolioDomain } from "@/src/data/portfolio";
 
 type OrbitRingProps = {
-  domain: Domain;
+  domain: PortfolioDomain;
 };
 
 export function OrbitRing({ domain }: OrbitRingProps) {
@@ -13,9 +13,12 @@ export function OrbitRing({ domain }: OrbitRingProps) {
       viewBox="0 0 100 100"
       style={
         {
-          "--ring-size": `${domain.orbitRadius * 2}%`,
+          "--ring-size": `${(domain.visual.orbitRadius ?? 0) * 2}%`,
           "--guide-color": domain.visual.glow,
-          "--guide-opacity": `${Math.max(0.028, domain.orbitLineOpacity * 0.08)}`,
+          "--guide-opacity": `${Math.max(
+            0.028,
+            (domain.visual.orbitLineOpacity ?? 0.4) * 0.08
+          )}`,
         } as CSSProperties
       }
     >
