@@ -12,7 +12,7 @@ export default async function ProtectedAdminLayout({
     <AdminShell
       session={session}
       title="Portfolio Admin"
-      description="Read-only CMS previews, validation status, and private portfolio management foundations for the future GitHub-only dashboard."
+      description="Private GitHub-only CMS tools for validation, database-backed project editing, and future portfolio publishing workflows."
     >
       {children}
     </AdminShell>

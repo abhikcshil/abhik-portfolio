@@ -3,7 +3,8 @@
 This repository contains Abhik C. Shil's Portfolio, built with Next.js,
 TypeScript, and Tailwind CSS. The public experience uses an interactive
 solar-system UI where domains are planets and projects are moons, while the
-data layer is structured for a future GitHub-only private admin/CMS.
+admin CMS now uses GitHub-only authentication plus a PostgreSQL-backed project
+editing foundation.
 
 ## Current Features
 
@@ -13,7 +14,7 @@ data layer is structured for a future GitHub-only private admin/CMS.
 - Zoom-in domain view with animated project moons
 - Project routes powered by a reusable, data-driven content model
 - CMS-ready portfolio structure with public and CMS helper layers
-- GitHub-only admin/CMS foundation for protected read-only admin routes
+- GitHub-only admin/CMS with protected database-backed project editing
 - Reduced-motion support
 - Responsive layout across desktop and mobile
 
@@ -24,7 +25,7 @@ data layer is structured for a future GitHub-only private admin/CMS.
 - Tailwind CSS
 - CSS animations and transforms
 - Auth.js / NextAuth for GitHub-only admin authentication
-- Prisma / Postgres as a future direction only
+- Prisma and PostgreSQL for admin project editing
 
 ## Project Structure
 
@@ -57,6 +58,9 @@ AGENTS.md
 ```bash
 npm install
 npm run dev
+npm run db:generate
+npm run db:push
+npm run db:seed
 npm run lint
 npm run build
 ```
@@ -71,10 +75,12 @@ AUTH_SECRET=
 AUTH_GITHUB_ID=
 AUTH_GITHUB_SECRET=
 CMS_ADMIN_GITHUB_USERNAMES=
+DATABASE_URL=
 ```
 
 `CMS_ADMIN_GITHUB_USERNAMES` should be a comma-separated allowlist of GitHub
-usernames.
+usernames. `DATABASE_URL` should point to a PostgreSQL database for the admin
+CMS.
 
 ## Content Model
 
@@ -83,7 +89,8 @@ usernames.
 - Projects can belong to multiple domains through domain placements.
 - Placement order controls moon distance from the center.
 - Public helpers filter visible content for the public Portfolio.
-- CMS helpers expose a broader read-only view for future admin work.
+- Admin CMS helpers now read and write project records in PostgreSQL.
+- Public Portfolio pages still use the static portfolio data layer in this pass.
 
 ## Documentation
 
@@ -97,3 +104,5 @@ usernames.
 
 This is an actively evolving personal Portfolio. The public experience is live
 in code today, and the private GitHub-only admin/CMS is being built in phases.
+The current milestone adds database-backed admin project editing without
+changing the public Portfolio runtime.

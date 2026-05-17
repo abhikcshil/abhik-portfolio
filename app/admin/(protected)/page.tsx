@@ -1,4 +1,10 @@
 import Link from "next/link";
+import { getCmsDbDomains } from "@/src/lib/cms/dbDomains";
+import { getCmsDbProjects } from "@/src/lib/cms/dbProjects";
+import {
+  getDatabaseSetupErrorMessage,
+  isDatabaseConfigured,
+} from "@/src/lib/db";
 import {
   getCmsDomains,
   getCmsProjects,
@@ -16,7 +22,8 @@ const quickLinks = [
   {
     href: "/admin/projects",
     title: "Projects",
-    description: "Review all moons, placements, statuses, and visibility.",
+    description:
+      "Edit database-backed project records while public pages stay on static data.",
   },
   {
     href: "/admin/content",
@@ -30,12 +37,31 @@ const quickLinks = [
   },
 ];
 
-export default function AdminDashboardPage() {
+export default async function AdminDashboardPage() {
   const validation = validatePortfolioData();
   const publicDomains = getPublicDomains();
   const cmsDomains = getCmsDomains();
   const publicProjects = getPublicProjects();
   const cmsProjects = getCmsProjects();
+  let dbStatusMessage =
+    "DATABASE_URL is not configured yet. Add PostgreSQL before using the editable project CMS.";
+  let dbDomainCount: number | null = null;
+  let dbProjectCount: number | null = null;
+
+  if (isDatabaseConfigured()) {
+    try {
+      const [dbDomains, dbProjects] = await Promise.all([
+        getCmsDbDomains(),
+        getCmsDbProjects(),
+      ]);
+      dbDomainCount = dbDomains.length;
+      dbProjectCount = dbProjects.length;
+      dbStatusMessage =
+        "Database-backed admin project editing is available. Public Portfolio pages still use static data in this phase.";
+    } catch (error) {
+      dbStatusMessage = getDatabaseSetupErrorMessage(error);
+    }
+  }
 
   return (
     <>
@@ -114,6 +140,48 @@ export default function AdminDashboardPage() {
             ))
           )}
         </div>
+      </section>
+
+      <section className="grid gap-4 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+        <article className="rounded-[2rem] border border-white/10 bg-white/5 p-6">
+          <p className="text-xs uppercase tracking-[0.22em] text-slate-400">
+            CMS database
+          </p>
+          <h2 className="mt-2 text-2xl font-semibold text-white">
+            Admin editing status
+          </h2>
+          <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-300">
+            {dbStatusMessage}
+          </p>
+          <p className="mt-5 rounded-2xl border border-cyan-300/14 bg-cyan-400/8 px-4 py-3 text-sm text-cyan-100">
+            Public Portfolio routes and the solar-system homepage still read the
+            static portfolio data layer for safety during this milestone.
+          </p>
+        </article>
+
+        <article className="rounded-[2rem] border border-white/10 bg-white/5 p-6">
+          <p className="text-xs uppercase tracking-[0.22em] text-slate-400">
+            DB counts
+          </p>
+          <div className="mt-5 grid gap-4">
+            <div className="rounded-2xl border border-white/10 bg-black/20 px-4 py-4">
+              <p className="text-xs uppercase tracking-[0.18em] text-slate-500">
+                Domains
+              </p>
+              <p className="mt-2 text-2xl font-semibold text-white">
+                {dbDomainCount ?? "Unavailable"}
+              </p>
+            </div>
+            <div className="rounded-2xl border border-white/10 bg-black/20 px-4 py-4">
+              <p className="text-xs uppercase tracking-[0.18em] text-slate-500">
+                Projects
+              </p>
+              <p className="mt-2 text-2xl font-semibold text-white">
+                {dbProjectCount ?? "Unavailable"}
+              </p>
+            </div>
+          </div>
+        </article>
       </section>
 
       <section className="grid gap-4 lg:grid-cols-2 xl:grid-cols-4">

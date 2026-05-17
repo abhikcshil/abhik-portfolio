@@ -19,7 +19,14 @@ export type CmsMetadata = {
   updatedBy?: string;
 };
 
-export type ContentVisibility = "public" | "private" | "draft" | "archived";
+export const CONTENT_VISIBILITIES = [
+  "public",
+  "private",
+  "draft",
+  "archived",
+] as const;
+
+export type ContentVisibility = (typeof CONTENT_VISIBILITIES)[number];
 
 export type PortfolioDomainVisual = {
   color: string;
@@ -57,13 +64,16 @@ export type PortfolioDomain = {
   cms: CmsMetadata;
 };
 
-export type ProjectStatus =
-  | "live"
-  | "building"
-  | "paused"
-  | "concept"
-  | "coursework"
-  | "archived";
+export const PROJECT_STATUSES = [
+  "live",
+  "building",
+  "paused",
+  "concept",
+  "coursework",
+  "archived",
+] as const;
+
+export type ProjectStatus = (typeof PROJECT_STATUSES)[number];
 
 export type ProjectDomainPlacement = {
   domainId: DomainId;

@@ -1,6 +1,7 @@
-# GitHub-only Admin/CMS Foundation
+# GitHub-only Admin/CMS
 
-Stage 5 adds the first protected admin foundation for the Portfolio.
+The Portfolio admin/CMS now has a protected Prisma and PostgreSQL foundation
+for project editing.
 
 ## Required Environment Variables
 
@@ -12,6 +13,7 @@ AUTH_SECRET=
 AUTH_GITHUB_ID=
 AUTH_GITHUB_SECRET=
 CMS_ADMIN_GITHUB_USERNAMES=
+DATABASE_URL=
 ```
 
 `CMS_ADMIN_GITHUB_USERNAMES` should be a comma-separated allowlist of GitHub
@@ -40,21 +42,59 @@ https://your-domain.com/api/auth/callback/github
 Use the GitHub app's client id and client secret for `AUTH_GITHUB_ID` and
 `AUTH_GITHUB_SECRET`.
 
+`DATABASE_URL` should point to a PostgreSQL database. On Render, use a Render
+PostgreSQL connection string or another managed Postgres provider.
+
+For local development, `DATABASE_URL` can live in `.env.local`.
+
 ## Access Model
 
 - GitHub is the only sign-in provider.
 - Public Portfolio pages stay open to everyone.
 - `/admin` and nested admin routes require an authenticated GitHub user.
 - The GitHub username must also be present in `CMS_ADMIN_GITHUB_USERNAMES`.
+- Admin project writes require a configured PostgreSQL database.
 
 ## Current Scope
 
-- Read-only admin dashboard
-- Read-only domains list
-- Read-only projects list
-- Protected route structure for future CMS work
+- Admin dashboard with database status messaging
+- Database-backed project list
+- Project create and edit forms
+- Read-only domain previews
+- Protected server-side admin actions
+- Static public Portfolio runtime for safety during this milestone
+
+## Database Setup
+
+Run these commands after adding `DATABASE_URL`:
+
+```bash
+npm run db:generate
+npm run db:push
+npm run db:seed
+```
+
+You can inspect records with:
+
+```bash
+npm run db:studio
+```
+
+The seed script imports the current static portfolio domains and projects into
+PostgreSQL and upserts matching ids so the setup can be rerun without creating
+duplicates.
+
+## Public Runtime
+
+The admin CMS database does not power the public Portfolio yet.
+
+- The homepage solar-system UI still uses static portfolio data.
+- Domain pages still use static public helpers.
+- Project pages still use static public helpers.
+- Admin project editing is isolated from the public runtime until DB-backed
+  public reads are intentionally enabled in a later phase.
 
 ## Later Phases
 
 Future stages will add editing forms, publishing controls, media workflows, and
-database-backed writes.
+public DB reads once the admin editing flow is stable.

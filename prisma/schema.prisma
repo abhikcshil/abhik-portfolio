@@ -1,0 +1,87 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Domain {
+  id               String   @id
+  slug             String   @unique
+  label            String
+  shortLabel       String?
+  description      String
+  enabled          Boolean  @default(true)
+  visibility       String   @default("public")
+  order            Int
+  href             String
+  color            String
+  glowColor        String?
+  gradient         String?
+  orbitRadius      Float?
+  orbitDuration    Float?
+  planetSize       Float?
+  initialAngle     Float?
+  orbitLineOpacity Float?
+  zIndexHint       Int?
+  surface          String
+  detail           String
+  rim              String
+  glow             String
+  labelColor       String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  publishedAt      DateTime?
+  archivedAt       DateTime?
+  createdBy        String?
+  updatedBy        String?
+
+  projects ProjectDomainPlacement[]
+}
+
+model Project {
+  id          String   @id
+  slug        String   @unique
+  title       String
+  shortTitle  String?
+  tagline     String
+  summary     String
+  status      String
+  enabled     Boolean  @default(true)
+  visibility  String   @default("public")
+  techStack   Json
+  highlights  Json
+  links       Json?
+  visual      Json?
+  content     Json?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  publishedAt DateTime?
+  archivedAt  DateTime?
+  createdBy   String?
+  updatedBy   String?
+
+  domains ProjectDomainPlacement[]
+}
+
+model ProjectDomainPlacement {
+  id            String  @id @default(cuid())
+  projectId     String
+  domainId      String
+  order         Int
+  featured      Boolean @default(false)
+  labelOverride String?
+  orbitRadius   Float?
+  orbitDuration Float?
+  moonSize      Float?
+  initialAngle  Float?
+  color         String?
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  domain  Domain  @relation(fields: [domainId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, domainId])
+  @@index([domainId, order])
+}

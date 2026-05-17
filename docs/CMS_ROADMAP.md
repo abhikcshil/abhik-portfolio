@@ -61,16 +61,27 @@ GitHub-only admin/CMS foundation:
 - Read-only domains list
 - Read-only projects list
 
+### Stage 6
+
+Database-backed project editing MVP:
+
+- Prisma schema for domains, projects, and project-domain placements
+- PostgreSQL-backed admin project list
+- Seed script that imports the current static Portfolio data
+- Protected project create and edit forms
+- Server-side validation and admin-only writes
+- Public Portfolio remains on static data for this pass
+
 ## Next Phases
 
 ### Database
 
-Likely future stack:
+Current stack:
 
 ```text
 Prisma
 PostgreSQL
-Neon, Supabase, Railway, or Vercel Postgres
+Render PostgreSQL, Neon, Supabase, Railway, or Vercel Postgres
 ```
 
 ### Editing UI
@@ -78,12 +89,13 @@ Neon, Supabase, Railway, or Vercel Postgres
 Future admin forms should cover:
 
 - Domains
-- Projects
 - Project placements
 - Content sections
 - Links
 - Visual settings
 - Visibility and publishing
+
+Projects are now the first editable content type.
 
 ### Media Uploads
 
@@ -103,3 +115,4 @@ Future workflow goals:
 - Publish and unpublish
 - Archive
 - Validation before publish
+- Optional public reads from the CMS database

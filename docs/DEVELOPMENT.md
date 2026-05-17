@@ -5,6 +5,9 @@
 ```bash
 npm install
 npm run dev
+npm run db:generate
+npm run db:push
+npm run db:seed
 npm run lint
 npm run build
 ```
@@ -34,11 +37,24 @@ src/lib/portfolio/
 
 Prefer helper functions over importing raw arrays directly into UI components.
 
+Database-backed admin project editing now also uses:
+
+```text
+prisma/
+src/lib/db.ts
+src/lib/cms/dbDomains.ts
+src/lib/cms/dbProjects.ts
+```
+
 ## Public vs CMS Data
 
 - Public UI should use public helpers.
 - Protected admin/CMS views should use CMS helpers.
+- Database-backed admin project editing should use the DB helpers in
+  `src/lib/cms/dbDomains.ts` and `src/lib/cms/dbProjects.ts`.
 - Public helpers should filter out disabled, draft, private, and archived items.
+- Public Portfolio routes still use the static portfolio helper layer in this
+  milestone.
 
 ## Animation Notes
 
@@ -80,6 +96,7 @@ AUTH_SECRET=
 AUTH_GITHUB_ID=
 AUTH_GITHUB_SECRET=
 CMS_ADMIN_GITHUB_USERNAMES=
+DATABASE_URL=
 ```
 
 Do not commit real secrets.
@@ -100,6 +117,19 @@ https://your-domain.com/api/auth/callback/github
 
 ## Deployment Notes
 
-The project is structured for a standard Next.js deployment flow. If a future
-database is added, make sure production environment variables are configured
-before enabling database-backed admin features.
+The build script now runs `prisma generate` before `next build`.
+
+For Render or another Postgres-backed deployment:
+
+```bash
+npm run db:generate
+npm run db:push
+npm run db:seed
+```
+
+Set `DATABASE_URL` in the deployment environment before using admin project
+editing. The public Portfolio can still build without a live database because
+public routes continue using static data.
+
+For local Prisma commands, keeping `DATABASE_URL` in `.env.local` is fine. The
+Prisma config loads both `.env` and `.env.local`.
