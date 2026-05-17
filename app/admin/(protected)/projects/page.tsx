@@ -58,8 +58,9 @@ export default async function AdminProjectsPage({
               Project records
             </h2>
             <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-300">
-              Create and edit project records in PostgreSQL while the public
-              Portfolio continues using static portfolio data for this phase.
+              Create and edit project records in PostgreSQL that now power the
+              public Portfolio, with static fallback protection if the database
+              is unavailable.
             </p>
           </div>
 

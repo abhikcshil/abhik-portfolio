@@ -53,8 +53,11 @@ src/lib/cms/dbProjects.ts
 - Database-backed admin project editing should use the DB helpers in
   `src/lib/cms/dbDomains.ts` and `src/lib/cms/dbProjects.ts`.
 - Public helpers should filter out disabled, draft, private, and archived items.
-- Public Portfolio routes still use the static portfolio helper layer in this
-  milestone.
+- Public Portfolio routes now use the server-only helper layer in
+  `src/lib/portfolio/publicData.ts`.
+- Client components should receive public portfolio data via props from server
+  components instead of importing Prisma-backed helpers directly.
+- Static portfolio data remains available as the seed source and fallback.
 
 ## Animation Notes
 
@@ -129,7 +132,12 @@ npm run db:seed
 
 Set `DATABASE_URL` in the deployment environment before using admin project
 editing. The public Portfolio can still build without a live database because
-public routes continue using static data.
+the public helper layer falls back to static portfolio data when DB access
+fails.
 
 For local Prisma commands, keeping `DATABASE_URL` in `.env.local` is fine. The
 Prisma config loads both `.env` and `.env.local`.
+
+Public database reads currently use a short cache window of 60 seconds, and
+admin project saves revalidate the homepage, affected project paths, affected
+domain paths, and the shared public portfolio cache tag.

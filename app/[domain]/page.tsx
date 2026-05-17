@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getPublicDomainBySlug } from "@/src/lib/portfolio";
+import { getPublicDomainBySlugCached } from "@/src/lib/portfolio/publicData";
 
 type DomainPageProps = {
   params: Promise<{ domain: string }>;
@@ -8,7 +8,7 @@ type DomainPageProps = {
 
 export default async function DomainPage({ params }: DomainPageProps) {
   const { domain: domainSlug } = await params;
-  const domain = getPublicDomainBySlug(domainSlug);
+  const domain = await getPublicDomainBySlugCached(domainSlug);
 
   if (!domain) {
     notFound();

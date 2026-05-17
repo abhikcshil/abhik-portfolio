@@ -25,7 +25,7 @@ editing foundation.
 - Tailwind CSS
 - CSS animations and transforms
 - Auth.js / NextAuth for GitHub-only admin authentication
-- Prisma and PostgreSQL for admin project editing
+- Prisma and PostgreSQL for admin project editing and public portfolio reads
 
 ## Project Structure
 
@@ -90,7 +90,8 @@ CMS.
 - Placement order controls moon distance from the center.
 - Public helpers filter visible content for the public Portfolio.
 - Admin CMS helpers now read and write project records in PostgreSQL.
-- Public Portfolio pages still use the static portfolio data layer in this pass.
+- Public Portfolio pages now read from PostgreSQL with a static fallback layer.
+- Static portfolio data remains in the repo as the seed source and resilience fallback.
 
 ## Documentation
 
@@ -104,5 +105,5 @@ CMS.
 
 This is an actively evolving personal Portfolio. The public experience is live
 in code today, and the private GitHub-only admin/CMS is being built in phases.
-The current milestone adds database-backed admin project editing without
-changing the public Portfolio runtime.
+The current milestone connects the public Portfolio runtime to database-backed
+content while preserving the existing solar-system UI and a static fallback.

@@ -1,11 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState, type CSSProperties } from "react";
-import type { DomainId } from "@/src/data/portfolio";
-import {
-  getPublicDomainById,
-  getPublicDomains,
-} from "@/src/lib/portfolio";
+import type { DomainId, PortfolioDomain, PortfolioProject } from "@/src/data/portfolio";
 import { CenterCore } from "./CenterCore";
 import { DomainPlanet } from "./DomainPlanet";
 import { DomainSystemView } from "./DomainSystemView";
@@ -19,8 +15,15 @@ type FocusPoint = {
 
 const DETAIL_EXIT_DURATION_MS = 680;
 
-export function SolarSystemScene() {
-  const domains = useMemo(() => getPublicDomains(), []);
+type SolarSystemSceneProps = {
+  domains: PortfolioDomain[];
+  projectsByDomain: Record<string, PortfolioProject[]>;
+};
+
+export function SolarSystemScene({
+  domains,
+  projectsByDomain,
+}: SolarSystemSceneProps) {
   const [selectedDomainId, setSelectedDomainId] = useState<DomainId | null>(
     null
   );
@@ -39,16 +42,23 @@ export function SolarSystemScene() {
   }, []);
 
   const selectedDomain = useMemo(
-    () => (selectedDomainId ? getPublicDomainById(selectedDomainId) : null),
-    [selectedDomainId]
+    () =>
+      selectedDomainId
+        ? domains.find((domain) => domain.id === selectedDomainId) ?? null
+        : null,
+    [domains, selectedDomainId]
   );
+  const selectedProjects = selectedDomain
+    ? projectsByDomain[selectedDomain.id] ?? []
+    : [];
 
   function handleOpenDomain(domainId: DomainId, nextFocusPoint: FocusPoint) {
     if (selectedDomainId) {
       return;
     }
 
-    const nextDomain = getPublicDomainById(domainId);
+    const nextDomain =
+      domains.find((domain) => domain.id === domainId) ?? null;
 
     if (!nextDomain) {
       return;
@@ -138,6 +148,7 @@ export function SolarSystemScene() {
             >
               <DomainSystemView
                 domain={selectedDomain}
+                projects={selectedProjects}
                 onBack={handleCloseDomain}
                 isVisible={isDomainFocused}
                 reduceMotion={reduceMotion}

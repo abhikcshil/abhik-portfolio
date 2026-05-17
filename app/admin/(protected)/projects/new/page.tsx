@@ -69,9 +69,9 @@ export default async function NewAdminProjectPage() {
           Create project
         </h2>
         <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-300">
-          This creates a new admin CMS record in PostgreSQL. The public
-          Portfolio still renders from static data during this milestone, so new
-          records stay admin-only until public DB reads are enabled.
+          This creates a new admin CMS record in PostgreSQL. Public Portfolio
+          pages now read from the database, so public project records can appear
+          on the homepage and project routes after refresh and revalidation.
         </p>
       </section>
 

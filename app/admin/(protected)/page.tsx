@@ -8,10 +8,12 @@ import {
 import {
   getCmsDomains,
   getCmsProjects,
-  getPublicDomains,
-  getPublicProjects,
   validatePortfolioData,
 } from "@/src/lib/portfolio";
+import {
+  getPublicDomainsCached,
+  getPublicProjectsCached,
+} from "@/src/lib/portfolio/publicData";
 
 const quickLinks = [
   {
@@ -23,7 +25,7 @@ const quickLinks = [
     href: "/admin/projects",
     title: "Projects",
     description:
-      "Edit database-backed project records while public pages stay on static data.",
+      "Edit database-backed project records that now power the public Portfolio.",
   },
   {
     href: "/admin/content",
@@ -39,10 +41,12 @@ const quickLinks = [
 
 export default async function AdminDashboardPage() {
   const validation = validatePortfolioData();
-  const publicDomains = getPublicDomains();
   const cmsDomains = getCmsDomains();
-  const publicProjects = getPublicProjects();
   const cmsProjects = getCmsProjects();
+  const [publicDomains, publicProjects] = await Promise.all([
+    getPublicDomainsCached(),
+    getPublicProjectsCached(),
+  ]);
   let dbStatusMessage =
     "DATABASE_URL is not configured yet. Add PostgreSQL before using the editable project CMS.";
   let dbDomainCount: number | null = null;
@@ -57,7 +61,7 @@ export default async function AdminDashboardPage() {
       dbDomainCount = dbDomains.length;
       dbProjectCount = dbProjects.length;
       dbStatusMessage =
-        "Database-backed admin project editing is available. Public Portfolio pages still use static data in this phase.";
+        "Database-backed admin project editing is available, and public Portfolio pages now read from the database with static fallback protection.";
     } catch (error) {
       dbStatusMessage = getDatabaseSetupErrorMessage(error);
     }
@@ -154,8 +158,9 @@ export default async function AdminDashboardPage() {
             {dbStatusMessage}
           </p>
           <p className="mt-5 rounded-2xl border border-cyan-300/14 bg-cyan-400/8 px-4 py-3 text-sm text-cyan-100">
-            Public Portfolio routes and the solar-system homepage still read the
-            static portfolio data layer for safety during this milestone.
+            Public Portfolio routes now prefer database-backed public content and
+            fall back to the static portfolio data layer if the database is
+            unavailable.
           </p>
         </article>
 

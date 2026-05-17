@@ -107,7 +107,8 @@ export default async function EditAdminProjectPage({
         </h2>
         <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-300">
           Save updates to the PostgreSQL-backed CMS record. Public project pages
-          and the homepage still use static portfolio data in this pass.
+          and the homepage now read from the database with a static fallback
+          safety net.
         </p>
       </section>
 

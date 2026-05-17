@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useState, type CSSProperties } from "react";
-import type { PortfolioDomain } from "@/src/data/portfolio";
-import { getMoonLayout, getPublicProjectsForDomain } from "@/src/lib/portfolio";
+import type { PortfolioDomain, PortfolioProject } from "@/src/data/portfolio";
+import { getMoonLayout } from "@/src/lib/portfolio";
 import { getOrbitAngle, getOrbitUnitPosition } from "./orbitMath";
 import { PlanetVisual } from "./PlanetVisual";
 import { ProjectMoon } from "./ProjectMoon";
@@ -10,6 +10,7 @@ import { DEFAULT_SCENE_SIZE, getSceneSize } from "./sceneSizing";
 
 type DomainSystemViewProps = {
   domain: PortfolioDomain;
+  projects: PortfolioProject[];
   onBack: () => void;
   isVisible: boolean;
   reduceMotion: boolean;
@@ -17,6 +18,7 @@ type DomainSystemViewProps = {
 
 export function DomainSystemView({
   domain,
+  projects,
   onBack,
   isVisible,
   reduceMotion,
@@ -56,10 +58,6 @@ export function DomainSystemView({
   const systemScale = Math.max(0.86, Math.min(sceneSize / 870, 1.22));
   const centralSize = Math.max(148, Math.min(sceneSize * 0.225, 208));
   const labelVisibility = sceneSize < 600 ? "compact" : "full";
-  const projects = useMemo(
-    () => getPublicProjectsForDomain(domain.id),
-    [domain.id]
-  );
   const moonLayouts = useMemo(
     () =>
       projects.map((project, index) =>

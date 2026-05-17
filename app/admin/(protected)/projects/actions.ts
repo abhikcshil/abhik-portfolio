@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireAdmin } from "@/src/lib/cms/auth";
 import { getCmsDbDomains } from "@/src/lib/cms/dbDomains";
@@ -18,6 +18,7 @@ import {
   type ProjectFormState,
 } from "@/src/lib/cms/projectForm";
 import { getDatabaseSetupErrorMessage } from "@/src/lib/db";
+import { getPublicPortfolioCacheTag } from "@/src/lib/portfolio/publicData";
 
 function getTrimmedString(formData: FormData, key: string) {
   const value = formData.get(key);
@@ -79,6 +80,9 @@ export async function saveProjectAction(
     session.user.githubUsername ?? session.user.email ?? "github-admin";
   let didUpdateExistingProject = false;
   let savedProjectId = "";
+  let previousProjectSlug: string | null = null;
+  let nextProjectSlug = "";
+  let revalidateDomainPaths: string[] = [];
 
   try {
     const projectId = getTrimmedString(formData, "projectId");
@@ -171,6 +175,7 @@ export async function saveProjectAction(
     const existingProject = projectId
       ? await getCmsDbProjectById(projectId)
       : null;
+    previousProjectSlug = existingProject?.slug ?? null;
 
     if (projectId && !existingProject) {
       return {
@@ -214,6 +219,17 @@ export async function saveProjectAction(
       createdBy: existingProject?.cms.createdBy ?? currentAdmin,
       updatedBy: currentAdmin,
     };
+    nextProjectSlug = projectInput.slug;
+    revalidateDomainPaths = domains
+      .filter((domain) => {
+        const isCurrentlySelected = selectedDomainIds.has(domain.id);
+        const wasPreviouslySelected = existingProject?.domains.some(
+          (placement) => placement.domainId === domain.id
+        );
+
+        return isCurrentlySelected || wasPreviouslySelected;
+      })
+      .map((domain) => `/${domain.slug}`);
 
     if (projectId) {
       await updateCmsDbProject(projectId, projectInput);
@@ -231,8 +247,19 @@ export async function saveProjectAction(
 
   revalidatePath("/admin");
   revalidatePath("/admin/projects");
+  revalidatePath("/");
+  revalidateTag(getPublicPortfolioCacheTag(), "max");
   if (savedProjectId) {
     revalidatePath(`/admin/projects/${savedProjectId}/edit`);
+  }
+  if (previousProjectSlug) {
+    revalidatePath(`/projects/${previousProjectSlug}`);
+  }
+  if (nextProjectSlug) {
+    revalidatePath(`/projects/${nextProjectSlug}`);
+  }
+  for (const domainPath of revalidateDomainPaths) {
+    revalidatePath(domainPath);
   }
 
   redirect(`/admin/projects?saved=${didUpdateExistingProject ? "updated" : "created"}`);

@@ -70,7 +70,16 @@ Database-backed project editing MVP:
 - Seed script that imports the current static Portfolio data
 - Protected project create and edit forms
 - Server-side validation and admin-only writes
-- Public Portfolio remains on static data for this pass
+
+### Stage 7
+
+Database-backed public Portfolio runtime:
+
+- Public homepage reads domains and project placements from PostgreSQL
+- Public domain and project pages read from database-backed public helpers
+- Static portfolio data remains as the seed source and runtime fallback
+- Admin project saves revalidate public cache and affected paths
+- Existing solar-system visuals remain unchanged
 
 ## Next Phases
 
@@ -115,4 +124,4 @@ Future workflow goals:
 - Publish and unpublish
 - Archive
 - Validation before publish
-- Optional public reads from the CMS database
+- Richer cache invalidation and publishing controls

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getPublicProjectBySlug } from "@/src/lib/portfolio";
+import { getPublicProjectBySlugCached } from "@/src/lib/portfolio/publicData";
 
 type ProjectPageProps = {
   params: Promise<{ slug: string }>;
@@ -8,7 +8,7 @@ type ProjectPageProps = {
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
   const { slug } = await params;
-  const project = getPublicProjectBySlug(slug);
+  const project = await getPublicProjectBySlugCached(slug);
 
   if (!project) {
     notFound();

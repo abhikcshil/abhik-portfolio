@@ -1,7 +1,8 @@
 # GitHub-only Admin/CMS
 
-The Portfolio admin/CMS now has a protected Prisma and PostgreSQL foundation
-for project editing.
+The Portfolio admin/CMS now powers both protected project editing and the
+public Portfolio runtime through Prisma and PostgreSQL, with a static fallback
+layer for resilience.
 
 ## Required Environment Variables
 
@@ -62,7 +63,7 @@ For local development, `DATABASE_URL` can live in `.env.local`.
 - Project create and edit forms
 - Read-only domain previews
 - Protected server-side admin actions
-- Static public Portfolio runtime for safety during this milestone
+- Database-backed public Portfolio helpers with static fallback
 
 ## Database Setup
 
@@ -86,15 +87,19 @@ duplicates.
 
 ## Public Runtime
 
-The admin CMS database does not power the public Portfolio yet.
+The public Portfolio now prefers the CMS database and falls back to the static
+portfolio data when the database is unavailable or unseeded.
 
-- The homepage solar-system UI still uses static portfolio data.
-- Domain pages still use static public helpers.
-- Project pages still use static public helpers.
-- Admin project editing is isolated from the public runtime until DB-backed
-  public reads are intentionally enabled in a later phase.
+- The homepage solar-system UI reads public domains and project placements from
+  database-backed public helpers.
+- Domain pages and project pages also use the database-backed public helper
+  layer.
+- Public filters still exclude disabled, draft, private, and archived content.
+- Static portfolio data remains in the repo as the seed source and fallback.
+- Public helper caching uses a short revalidation window and admin project
+  saves explicitly revalidate the public Portfolio cache and affected paths.
 
 ## Later Phases
 
-Future stages will add editing forms, publishing controls, media workflows, and
-public DB reads once the admin editing flow is stable.
+Future stages will add more editing surfaces, publishing controls, and media
+workflows on top of the new public DB-backed runtime.
