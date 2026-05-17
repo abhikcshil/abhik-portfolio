@@ -55,9 +55,9 @@ export function DomainSystemView({
     return () => cancelAnimationFrame(frameId);
   }, [isVisible, reduceMotion]);
 
-  const systemScale = Math.max(0.72, Math.min(sceneSize / 960, 1.08));
-  const centralSize = Math.max(118, Math.min(sceneSize * 0.18, 172));
-  const labelVisibility = sceneSize < 620 ? "compact" : "full";
+  const systemScale = Math.max(0.86, Math.min(sceneSize / 870, 1.22));
+  const centralSize = Math.max(148, Math.min(sceneSize * 0.225, 208));
+  const labelVisibility = sceneSize < 600 ? "compact" : "full";
 
   const orbitRadii = useMemo(
     () =>

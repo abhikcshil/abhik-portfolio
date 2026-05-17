@@ -94,24 +94,26 @@ export function SolarSystemScene() {
             }`}
           >
             <div className="relative grid h-full w-full place-items-center">
-              <div className="solar-perspective relative aspect-square w-[min(124vmin,1280px)] min-w-[390px]">
-                <div className="orbit-path-layer">
-                  {domains.map((domain) => (
-                    <OrbitRing key={domain.id} domain={domain} />
-                  ))}
-                </div>
+              <div className="home-system-positioner">
+                <div className="solar-perspective relative aspect-square w-[min(124vmin,1280px)] min-w-[390px]">
+                  <div className="orbit-path-layer">
+                    {domains.map((domain) => (
+                      <OrbitRing key={domain.id} domain={domain} />
+                    ))}
+                  </div>
 
-                <div className="planet-overlay">
-                  {domains.map((domain) => (
-                    <DomainPlanet
-                      key={domain.id}
-                      domain={domain}
-                      onOpenDomain={handleOpenDomain}
-                    />
-                  ))}
-                </div>
+                  <div className="planet-overlay">
+                    {domains.map((domain) => (
+                      <DomainPlanet
+                        key={domain.id}
+                        domain={domain}
+                        onOpenDomain={handleOpenDomain}
+                      />
+                    ))}
+                  </div>
 
-                <CenterCore />
+                  <CenterCore />
+                </div>
               </div>
             </div>
           </div>

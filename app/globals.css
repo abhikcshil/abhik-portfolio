@@ -3,6 +3,7 @@
 :root {
   --background: #030407;
   --foreground: #ededed;
+  --home-system-y-offset: clamp(-4.5rem, -7vh, -2rem);
 }
 
 @theme inline {
@@ -53,6 +54,10 @@ a {
 
 .scene-stage {
   isolation: isolate;
+}
+
+.home-system-positioner {
+  transform: translateY(var(--home-system-y-offset));
 }
 
 .solar-system-layer,
@@ -405,9 +410,8 @@ a {
 .project-moon {
   opacity: 0;
   pointer-events: auto;
-  transition:
-    transform 560ms cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 560ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 560ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
 }
 
 .project-moon-visible {
@@ -483,6 +487,10 @@ a {
 }
 
 @media (max-width: 720px) {
+  .home-system-positioner {
+    transform: translateY(clamp(-3rem, -5vh, -1.25rem));
+  }
+
   .domain-system-copy {
     max-width: calc(100vw - 2rem);
     top: calc(max(1rem, env(safe-area-inset-top)) + 4rem);

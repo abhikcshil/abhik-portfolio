@@ -24,11 +24,11 @@ export const domains: Domain[] = [
     id: "software",
     label: "Software",
     href: "/software",
-    orbitRadius: 18,
+    orbitRadius: 16.5,
     orbitDuration: 54,
     initialAngle: -38,
     orbitLineOpacity: 0.42,
-    planetSize: 60,
+    planetSize: 52,
     zIndexHint: 34,
     visual: {
       surface:
@@ -44,11 +44,11 @@ export const domains: Domain[] = [
     id: "hardware",
     label: "Hardware",
     href: "/hardware",
-    orbitRadius: 27,
+    orbitRadius: 24.5,
     orbitDuration: 70,
     initialAngle: 118,
     orbitLineOpacity: 0.46,
-    planetSize: 56,
+    planetSize: 40,
     zIndexHint: 28,
     visual: {
       surface:
@@ -64,11 +64,11 @@ export const domains: Domain[] = [
     id: "music",
     label: "Music",
     href: "/music",
-    orbitRadius: 36,
+    orbitRadius: 32.5,
     orbitDuration: 86,
     initialAngle: 207,
     orbitLineOpacity: 0.5,
-    planetSize: 50,
+    planetSize: 54,
     zIndexHint: 22,
     visual: {
       surface:
@@ -84,11 +84,11 @@ export const domains: Domain[] = [
     id: "visuals",
     label: "Visuals",
     href: "/visuals",
-    orbitRadius: 45,
+    orbitRadius: 37,
     orbitDuration: 104,
     initialAngle: 316,
     orbitLineOpacity: 0.54,
-    planetSize: 54,
+    planetSize: 49,
     zIndexHint: 38,
     visual: {
       surface:
