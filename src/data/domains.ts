@@ -1,5 +1,7 @@
+export type DomainId = "software" | "hardware" | "music" | "visuals";
+
 export type Domain = {
-  id: string;
+  id: DomainId;
   label: string;
   href: string;
   orbitRadius: number;

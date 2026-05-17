@@ -51,6 +51,47 @@ a {
     radial-gradient(circle at center, transparent 0%, rgba(3, 4, 7, 0.18) 46%, rgba(3, 4, 7, 0.9) 100%);
 }
 
+.scene-stage {
+  isolation: isolate;
+}
+
+.solar-system-layer,
+.domain-system-layer {
+  transition:
+    opacity 720ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 720ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 720ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity, filter;
+}
+
+.solar-system-layer {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+.solar-system-layer-focused {
+  filter: blur(3px);
+  opacity: 0;
+  pointer-events: none;
+  transform:
+    translate3d(calc(var(--focus-x) * -0.22), calc(var(--focus-y) * -0.22), 0)
+    scale(1.24);
+}
+
+.domain-system-layer {
+  opacity: 0;
+  pointer-events: none;
+  transform:
+    translate3d(calc(var(--focus-x) * 0.08), calc(var(--focus-y) * 0.08), 0)
+    scale(0.92);
+}
+
+.domain-system-layer-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
 .orbit-path-layer,
 .planet-overlay {
   position: absolute;
@@ -66,6 +107,107 @@ a {
 
 .planet-overlay {
   z-index: 10;
+}
+
+.domain-system-view {
+  z-index: 40;
+}
+
+.domain-system-back {
+  align-items: center;
+  background: rgba(2, 6, 23, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 9999px;
+  box-shadow:
+    0 18px 38px rgba(0, 0, 0, 0.32),
+    0 0 24px rgba(148, 163, 184, 0.1);
+  color: rgba(241, 245, 249, 0.94);
+  display: inline-flex;
+  gap: 0.65rem;
+  left: max(1.25rem, env(safe-area-inset-left));
+  padding: 0.9rem 1.2rem;
+  position: absolute;
+  top: max(1.25rem, env(safe-area-inset-top));
+  z-index: 6;
+}
+
+.domain-system-copy {
+  left: max(1.25rem, env(safe-area-inset-left));
+  max-width: min(28rem, calc(100vw - 2.5rem));
+  position: absolute;
+  top: calc(max(1.25rem, env(safe-area-inset-top)) + 4.75rem);
+  z-index: 5;
+}
+
+.domain-system-kicker {
+  color: rgba(148, 163, 184, 0.92);
+  font-size: 0.72rem;
+  letter-spacing: 0.32em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.domain-system-title {
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  margin: 0.65rem 0 0;
+}
+
+.domain-system-description {
+  color: rgba(203, 213, 225, 0.78);
+  font-size: 1rem;
+  line-height: 1.7;
+  margin: 0.9rem 0 0;
+  max-width: 24rem;
+}
+
+.domain-system-stage {
+  display: grid;
+  place-items: center;
+}
+
+.domain-system-orbit {
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 9999px;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.domain-focus-planet {
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0.74);
+  transition:
+    transform 760ms cubic-bezier(0.18, 1, 0.32, 1),
+    opacity 760ms cubic-bezier(0.18, 1, 0.32, 1);
+  opacity: 0;
+  z-index: 3;
+}
+
+.domain-focus-planet-visible {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.domain-focus-halo {
+  background:
+    radial-gradient(circle, rgba(255, 255, 255, 0.16), transparent 48%),
+    radial-gradient(circle, var(--planet-glow), transparent 70%);
+  filter: blur(10px);
+  opacity: 0.74;
+}
+
+.domain-focus-label {
+  background: rgba(2, 6, 23, 0.84);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow:
+    0 14px 32px rgba(0, 0, 0, 0.34),
+    0 0 18px color-mix(in srgb, var(--planet-glow), transparent 64%);
+  color: rgba(241, 245, 249, 0.96);
 }
 
 .center-sun {
@@ -260,6 +402,35 @@ a {
   text-shadow: 0 0 18px var(--planet-glow);
 }
 
+.project-moon {
+  opacity: 0;
+  pointer-events: auto;
+  transition:
+    transform 560ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 560ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.project-moon-visible {
+  opacity: 1;
+}
+
+.project-moon-label {
+  background: rgba(2, 6, 23, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 10px 22px rgba(0, 0, 0, 0.3),
+    0 0 14px color-mix(in srgb, var(--planet-glow), transparent 74%);
+  color: rgba(226, 232, 240, 0.96);
+  font-weight: 500;
+  line-height: 1.15;
+}
+
+.project-moon:hover .project-moon-label,
+.project-moon:focus-visible .project-moon-label {
+  border-color: color-mix(in srgb, var(--planet-label), transparent 36%);
+  color: rgba(248, 250, 252, 0.98);
+}
+
 .star-layer {
   animation: star-drift 52s linear infinite;
   background-position: 0 0;
@@ -289,5 +460,46 @@ a {
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .solar-system-layer-focused,
+  .domain-focus-planet,
+  .domain-focus-planet-visible {
+    filter: none !important;
+  }
+
+  .solar-system-layer-focused,
+  .domain-system-layer,
+  .domain-system-layer-visible {
+    transform: none !important;
+  }
+
+  .project-moon,
+  .project-moon-visible,
+  .domain-focus-planet,
+  .domain-focus-planet-visible {
+    opacity: 1 !important;
+  }
+}
+
+@media (max-width: 720px) {
+  .domain-system-copy {
+    max-width: calc(100vw - 2rem);
+    top: calc(max(1rem, env(safe-area-inset-top)) + 4rem);
+  }
+
+  .domain-system-description {
+    font-size: 0.94rem;
+    line-height: 1.6;
+    max-width: 18rem;
+  }
+
+  .domain-focus-label {
+    margin-top: 1rem;
+    padding: 0.65rem 0.95rem;
+  }
+
+  .domain-system-orbit {
+    opacity: 0.76;
   }
 }
