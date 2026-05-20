@@ -1,10 +1,51 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getPublicDomainBySlugCached } from "@/src/lib/portfolio/publicData";
+import {
+  getPublicDomainBySlugCached,
+  getPublicProjectsForDomainCached,
+} from "@/src/lib/portfolio/publicData";
+import { buildPageTitle, SITE_DESCRIPTION } from "@/src/lib/site";
 
 type DomainPageProps = {
   params: Promise<{ domain: string }>;
 };
+
+export async function generateMetadata({
+  params,
+}: DomainPageProps): Promise<Metadata> {
+  const { domain: domainSlug } = await params;
+  const domain = await getPublicDomainBySlugCached(domainSlug);
+
+  if (!domain) {
+    return {
+      title: "Domain",
+      description: SITE_DESCRIPTION,
+      robots: {
+        index: false,
+        follow: false,
+      },
+    };
+  }
+
+  const description = domain.description || SITE_DESCRIPTION;
+  const title = buildPageTitle(domain.label);
+
+  return {
+    title: domain.label,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "website",
+    },
+    twitter: {
+      card: "summary",
+      title,
+      description,
+    },
+  };
+}
 
 export default async function DomainPage({ params }: DomainPageProps) {
   const { domain: domainSlug } = await params;
@@ -14,19 +55,38 @@ export default async function DomainPage({ params }: DomainPageProps) {
     notFound();
   }
 
+  const projects = await getPublicProjectsForDomainCached(domain.id);
+
   return (
     <main className="min-h-dvh bg-[#030407] px-6 py-16 text-slate-100">
-      <div className="mx-auto max-w-3xl rounded-[2rem] border border-white/10 bg-white/5 p-8 shadow-[0_30px_80px_rgba(0,0,0,0.35)] backdrop-blur-sm">
+      <div className="mx-auto max-w-4xl rounded-[2rem] border border-white/10 bg-white/5 p-8 shadow-[0_30px_80px_rgba(0,0,0,0.35)] backdrop-blur-sm">
         <p className="text-sm uppercase tracking-[0.26em] text-slate-400">
-          Domain Placeholder
+          Domain Overview
         </p>
         <h1 className="mt-4 text-4xl font-semibold tracking-tight">
           {domain.label}
         </h1>
         <p className="mt-5 max-w-2xl text-base leading-7 text-slate-300">
-          {domain.description} This fallback route exists so domain links still
-          resolve outside the homepage zoom interaction.
+          {domain.description}
         </p>
+        {projects.length > 0 && (
+          <div className="mt-8">
+            <p className="text-xs uppercase tracking-[0.22em] text-slate-500">
+              Projects in this domain
+            </p>
+            <div className="mt-4 flex flex-wrap gap-3">
+              {projects.map((project) => (
+                <Link
+                  key={project.slug}
+                  href={`/projects/${project.slug}`}
+                  className="rounded-full border border-white/10 bg-black/20 px-4 py-2 text-sm text-slate-200 transition hover:border-white/18 hover:bg-white/8"
+                >
+                  {project.shortTitle ?? project.title}
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
         <Link
           href="/"
           className="mt-8 inline-flex rounded-full border border-white/12 bg-white/8 px-5 py-3 text-sm font-medium uppercase tracking-[0.18em] text-slate-100 transition hover:border-white/24 hover:bg-white/12"

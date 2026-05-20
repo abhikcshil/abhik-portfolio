@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import type { CSSProperties } from "react";
+import type { CSSProperties, FocusEventHandler, MouseEventHandler } from "react";
 import type { PortfolioProject } from "@/src/data/portfolio";
 import type { MoonLayout } from "@/src/lib/portfolio";
 import { PlanetVisual } from "./PlanetVisual";
@@ -14,6 +14,8 @@ type ProjectMoonProps = {
   index: number;
   isVisible: boolean;
   labelVisibility: "full" | "compact";
+  onPreviewStart?: (projectId: string) => void;
+  onPreviewEnd?: () => void;
 };
 
 function getMoonVisual(color: string) {
@@ -33,8 +35,22 @@ export function ProjectMoon({
   index,
   isVisible,
   labelVisibility,
+  onPreviewStart,
+  onPreviewEnd,
 }: ProjectMoonProps) {
   const visual = getMoonVisual(layout.color ?? "rgba(148, 163, 184, 0.88)");
+  const handleMouseEnter: MouseEventHandler<HTMLAnchorElement> = () => {
+    onPreviewStart?.(project.id);
+  };
+  const handleMouseLeave: MouseEventHandler<HTMLAnchorElement> = () => {
+    onPreviewEnd?.();
+  };
+  const handleFocus: FocusEventHandler<HTMLAnchorElement> = () => {
+    onPreviewStart?.(project.id);
+  };
+  const handleBlur: FocusEventHandler<HTMLAnchorElement> = () => {
+    onPreviewEnd?.();
+  };
 
   return (
     <Link
@@ -56,16 +72,25 @@ export function ProjectMoon({
           transitionDelay: `${index * 48}ms`,
         } as CSSProperties
       }
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
     >
       <PlanetVisual className="absolute inset-0 block rounded-full transition duration-300 group-hover:scale-110 group-focus-visible:scale-110" />
       <span
-        className={`project-moon-label pointer-events-none absolute left-1/2 top-full -translate-x-1/2 whitespace-nowrap rounded-full px-3 py-1 uppercase ${
-          labelVisibility === "compact"
-            ? "mt-2 text-[0.62rem] tracking-[0.12em]"
-            : "mt-3 text-[0.68rem] tracking-[0.14em]"
+        className={`project-moon-tag-stack ${
+          labelVisibility === "compact" ? "mt-2" : "mt-3"
         }`}
       >
-        {layout.displayLabel}
+        <span
+          className={`project-moon-label whitespace-nowrap rounded-full px-3 py-1.5 ${
+            labelVisibility === "compact" ? "text-[0.6rem]" : "text-[0.66rem]"
+          }`}
+        >
+          {layout.displayLabel}
+        </span>
+        <span className="orbit-tag-hint mt-1.5">Click to view more</span>
       </span>
     </Link>
   );

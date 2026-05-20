@@ -46,6 +46,42 @@ export default async function AdminProjectsPage({
     );
   }
 
+  function getVisibilityTone(visibility: string) {
+    if (visibility === "public") {
+      return "emerald" as const;
+    }
+
+    if (visibility === "archived") {
+      return "rose" as const;
+    }
+
+    if (visibility === "draft") {
+      return "slate" as const;
+    }
+
+    return "amber" as const;
+  }
+
+  function getStatusTone(status: string) {
+    if (status === "live") {
+      return "emerald" as const;
+    }
+
+    if (status === "building") {
+      return "cyan" as const;
+    }
+
+    if (status === "archived" || status === "paused") {
+      return "rose" as const;
+    }
+
+    if (status === "concept") {
+      return "amber" as const;
+    }
+
+    return "slate" as const;
+  }
+
   return (
     <>
       <section className="rounded-[2rem] border border-white/10 bg-white/5 p-6">
@@ -116,16 +152,16 @@ export default async function AdminProjectsPage({
               key: "status",
               header: "Status",
               render: (project) => (
-                <AdminBadge tone="slate">{project.status}</AdminBadge>
+                <AdminBadge tone={getStatusTone(project.status)}>
+                  {project.status}
+                </AdminBadge>
               ),
             },
             {
               key: "visibility",
               header: "Visibility",
               render: (project) => (
-                <AdminBadge
-                  tone={project.visibility === "public" ? "emerald" : "amber"}
-                >
+                <AdminBadge tone={getVisibilityTone(project.visibility)}>
                   {project.visibility}
                 </AdminBadge>
               ),
@@ -159,6 +195,23 @@ export default async function AdminProjectsPage({
                   ))}
                 </div>
               ),
+            },
+            {
+              key: "route",
+              header: "Public Route",
+              render: (project) =>
+                project.enabled && project.visibility === "public" ? (
+                  <Link
+                    href={`/projects/${project.slug}`}
+                    className="inline-flex rounded-full border border-emerald-300/20 bg-emerald-400/10 px-3 py-2 text-xs font-medium uppercase tracking-[0.16em] text-emerald-100 transition hover:border-emerald-300/40 hover:bg-emerald-400/16"
+                  >
+                    Open Route
+                  </Link>
+                ) : (
+                  <span className="text-xs uppercase tracking-[0.16em] text-slate-500">
+                    Not public
+                  </span>
+                ),
             },
             {
               key: "edit",

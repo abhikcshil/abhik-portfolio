@@ -111,6 +111,26 @@ export function SolarSystemScene({
           }
         >
           <div
+            className={`home-scene-branding ${isDomainFocused ? "home-scene-branding-hidden" : ""}`}
+          >
+            <div
+              aria-hidden="true"
+              className="home-watermark"
+            >
+              ABHIK
+            </div>
+
+            <div className="home-identity">
+              <p className="home-identity-title">
+                Abhik C. Shil | Interactive Portfolio
+              </p>
+              <p className="home-identity-subline">
+                Select a planet to explore projects.
+              </p>
+            </div>
+          </div>
+
+          <div
             className={`solar-system-layer absolute inset-0 ${
               isDomainFocused ? "solar-system-layer-focused" : ""
             }`}

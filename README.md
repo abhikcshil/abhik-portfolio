@@ -9,12 +9,14 @@ editing foundation.
 ## Current Features
 
 - Cinematic solar-system homepage
-- Central sun with Abhik C. Shil's name
+- Centered ABHIK watermark and identity block
+- Central sun with Abhik identity
 - Orbiting domain planets with attached trails
 - Zoom-in domain view with animated project moons
+- Moon hover and focus preview panel
 - Project routes powered by a reusable, data-driven content model
 - CMS-ready portfolio structure with public and CMS helper layers
-- GitHub-only admin/CMS with protected database-backed project editing
+- GitHub-only admin/CMS with protected database-backed project and domain editing
 - Reduced-motion support
 - Responsive layout across desktop and mobile
 
@@ -65,6 +67,16 @@ npm run lint
 npm run build
 ```
 
+## Publish Checklist
+
+- `DATABASE_URL` set
+- `AUTH_SECRET`, `AUTH_GITHUB_ID`, and `AUTH_GITHUB_SECRET` set
+- `CMS_ADMIN_GITHUB_USERNAMES` set
+- `NEXT_PUBLIC_SITE_URL` set
+- GitHub OAuth callback URL configured
+- `npm run lint`
+- `npm run build`
+
 ## Environment Variables
 
 The GitHub-only admin/CMS foundation expects these variables when you want to
@@ -76,11 +88,13 @@ AUTH_GITHUB_ID=
 AUTH_GITHUB_SECRET=
 CMS_ADMIN_GITHUB_USERNAMES=
 DATABASE_URL=
+NEXT_PUBLIC_SITE_URL=
 ```
 
 `CMS_ADMIN_GITHUB_USERNAMES` should be a comma-separated allowlist of GitHub
 usernames. `DATABASE_URL` should point to a PostgreSQL database for the admin
-CMS.
+CMS. `NEXT_PUBLIC_SITE_URL` should be the production site origin when you want
+canonical and share metadata to resolve against the live domain.
 
 ## Content Model
 
@@ -89,9 +103,10 @@ CMS.
 - Projects can belong to multiple domains through domain placements.
 - Placement order controls moon distance from the center.
 - Public helpers filter visible content for the public Portfolio.
-- Admin CMS helpers now read and write project records in PostgreSQL.
+- Admin CMS helpers now read and write project and domain records in PostgreSQL.
 - Public Portfolio pages now read from PostgreSQL with a static fallback layer.
 - Static portfolio data remains in the repo as the seed source and resilience fallback.
+- Missing optional domain orbit fields fall back to deterministic layout values based on domain order.
 
 ## Documentation
 

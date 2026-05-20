@@ -4,8 +4,8 @@ export function CenterCore() {
       <div className="center-sun-corona absolute rounded-full" />
       <div className="center-sun-halo absolute rounded-full" />
       <div className="center-sun-core absolute inset-0 rounded-full" />
-      <p className="relative whitespace-nowrap px-2 text-[clamp(0.72rem,1.1vw,0.95rem)] font-semibold tracking-[0.12em] text-[#241005] drop-shadow-[0_1px_8px_rgba(255,255,255,0.65)]">
-        Abhik C. Shil
+      <p className="font-orbit relative whitespace-nowrap px-2 text-[clamp(0.88rem,1.25vw,1.12rem)] font-semibold tracking-[0.18em] text-[#2b1304] drop-shadow-[0_1px_8px_rgba(255,255,255,0.65)]">
+        ABHIK
       </p>
     </div>
   );

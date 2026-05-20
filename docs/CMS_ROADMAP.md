@@ -81,6 +81,26 @@ Database-backed public Portfolio runtime:
 - Admin project saves revalidate public cache and affected paths
 - Existing solar-system visuals remain unchanged
 
+### Stage 8
+
+Domain editing and admin polish:
+
+- Protected domain create and edit forms
+- Database-backed domain list with public route links
+- Deterministic domain layout fallbacks for missing orbit values
+- Revalidation for public homepage, domain routes, and affected project routes
+- Improved project form guidance and admin list usability
+
+### Stage 9
+
+Publish-readiness cleanup:
+
+- Dynamic metadata for public project and domain routes
+- Launch-ready project route presentation
+- App-level not-found, loading, and error states
+- Generated app icons and safer metadata defaults
+- Deployment checklist updates for `NEXT_PUBLIC_SITE_URL`
+
 ## Next Phases
 
 ### Database

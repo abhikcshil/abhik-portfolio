@@ -2,8 +2,13 @@ import "server-only";
 
 import type { Domain } from "@prisma/client";
 import { getDbOrThrow } from "@/src/lib/db";
+import { getDomainVisualTokens } from "@/src/lib/portfolio/domainLayout";
 import { normalizeDomain } from "@/src/lib/portfolio/normalize";
-import type { DomainId, PortfolioDomain } from "@/src/lib/portfolio/schema";
+import type {
+  ContentVisibility,
+  DomainId,
+  PortfolioDomain,
+} from "@/src/lib/portfolio/schema";
 
 function toCmsMetadata(record: {
   createdAt: Date;
@@ -22,6 +27,27 @@ function toCmsMetadata(record: {
     updatedBy: record.updatedBy ?? undefined,
   };
 }
+
+export type CmsDbDomainInput = {
+  id?: string;
+  label: string;
+  shortLabel?: string;
+  slug: string;
+  description: string;
+  enabled: boolean;
+  visibility: ContentVisibility;
+  order: number;
+  href?: string;
+  color?: string;
+  glowColor?: string;
+  gradient?: string;
+  orbitRadius?: number;
+  orbitDuration?: number;
+  planetSize?: number;
+  initialAngle?: number;
+  createdBy?: string;
+  updatedBy?: string;
+};
 
 function mapDomainRecord(record: Domain): PortfolioDomain {
   return normalizeDomain({
@@ -54,6 +80,40 @@ function mapDomainRecord(record: Domain): PortfolioDomain {
   });
 }
 
+function buildDomainWriteData(input: CmsDbDomainInput, existing?: Domain) {
+  const color = input.color?.trim() || existing?.color || "#22d3ee";
+  const glowColor = input.glowColor?.trim() || undefined;
+  const gradient = input.gradient?.trim() || undefined;
+  const derivedVisuals = getDomainVisualTokens(color, glowColor, gradient);
+
+  return {
+    slug: input.slug,
+    label: input.label,
+    shortLabel: input.shortLabel ?? null,
+    description: input.description,
+    enabled: input.enabled,
+    visibility: input.visibility,
+    order: input.order,
+    href: input.href?.trim() || `/${input.slug}`,
+    color,
+    glowColor: glowColor ?? null,
+    gradient: gradient ?? null,
+    orbitRadius: input.orbitRadius ?? null,
+    orbitDuration: input.orbitDuration ?? null,
+    planetSize: input.planetSize ?? null,
+    initialAngle: input.initialAngle ?? null,
+    orbitLineOpacity: existing?.orbitLineOpacity ?? null,
+    zIndexHint: existing?.zIndexHint ?? null,
+    surface: derivedVisuals.surface,
+    detail: derivedVisuals.detail,
+    rim: derivedVisuals.rim,
+    glow: derivedVisuals.glow,
+    labelColor: derivedVisuals.label,
+    createdBy: input.createdBy ?? existing?.createdBy ?? null,
+    updatedBy: input.updatedBy ?? existing?.updatedBy ?? null,
+  };
+}
+
 export async function getCmsDbDomains(): Promise<PortfolioDomain[]> {
   const db = getDbOrThrow();
   const domains = await db.domain.findMany({
@@ -83,4 +143,41 @@ export async function getCmsDbDomainBySlug(
   });
 
   return domain ? mapDomainRecord(domain) : null;
+}
+
+export async function createCmsDbDomain(
+  input: CmsDbDomainInput
+): Promise<PortfolioDomain> {
+  const db = getDbOrThrow();
+  const domainId = input.id ?? input.slug;
+
+  const createdDomain = await db.domain.create({
+    data: {
+      id: domainId,
+      ...buildDomainWriteData(input),
+    },
+  });
+
+  return mapDomainRecord(createdDomain);
+}
+
+export async function updateCmsDbDomain(
+  id: string,
+  input: CmsDbDomainInput
+): Promise<PortfolioDomain> {
+  const db = getDbOrThrow();
+  const existingDomain = await db.domain.findUnique({
+    where: { id },
+  });
+
+  if (!existingDomain) {
+    throw new Error(`Domain "${id}" was not found in the CMS database.`);
+  }
+
+  const updatedDomain = await db.domain.update({
+    where: { id },
+    data: buildDomainWriteData(input, existingDomain),
+  });
+
+  return mapDomainRecord(updatedDomain);
 }

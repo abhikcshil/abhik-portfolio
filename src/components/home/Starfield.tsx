@@ -5,7 +5,10 @@ const starLayers = [
 
 export function Starfield() {
   return (
-    <div aria-hidden="true" className="absolute inset-0 overflow-hidden">
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-0 overflow-hidden"
+    >
       <div
         className="star-layer absolute inset-[-6%] opacity-80"
         style={{ backgroundImage: starLayers[0], backgroundSize: "420px 420px" }}

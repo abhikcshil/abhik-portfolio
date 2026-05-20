@@ -1,6 +1,6 @@
 # GitHub-only Admin/CMS
 
-The Portfolio admin/CMS now powers both protected project editing and the
+The Portfolio admin/CMS now powers both protected project and domain editing and the
 public Portfolio runtime through Prisma and PostgreSQL, with a static fallback
 layer for resilience.
 
@@ -15,6 +15,7 @@ AUTH_GITHUB_ID=
 AUTH_GITHUB_SECRET=
 CMS_ADMIN_GITHUB_USERNAMES=
 DATABASE_URL=
+NEXT_PUBLIC_SITE_URL=
 ```
 
 `CMS_ADMIN_GITHUB_USERNAMES` should be a comma-separated allowlist of GitHub
@@ -59,9 +60,10 @@ For local development, `DATABASE_URL` can live in `.env.local`.
 ## Current Scope
 
 - Admin dashboard with database status messaging
+- Database-backed domain list
+- Domain create and edit forms
 - Database-backed project list
 - Project create and edit forms
-- Read-only domain previews
 - Protected server-side admin actions
 - Database-backed public Portfolio helpers with static fallback
 
@@ -94,12 +96,36 @@ portfolio data when the database is unavailable or unseeded.
   database-backed public helpers.
 - Domain pages and project pages also use the database-backed public helper
   layer.
+- Missing optional domain orbit and size fields fall back to deterministic
+  layout values derived from domain order and list position.
 - Public filters still exclude disabled, draft, private, and archived content.
 - Static portfolio data remains in the repo as the seed source and fallback.
 - Public helper caching uses a short revalidation window and admin project
   saves explicitly revalidate the public Portfolio cache and affected paths.
 
+## Domain Fields
+
+Editable domain fields currently include:
+
+- Label and short label
+- Slug and href
+- Description
+- Visibility and enabled state
+- Display order
+- Color, glow color, and optional gradient
+- Optional orbit radius, orbit duration, planet size, and initial angle
+
 ## Later Phases
 
 Future stages will add more editing surfaces, publishing controls, and media
 workflows on top of the new public DB-backed runtime.
+
+## Publish Checklist
+
+- `DATABASE_URL` set
+- `AUTH_SECRET`, `AUTH_GITHUB_ID`, and `AUTH_GITHUB_SECRET` set
+- `CMS_ADMIN_GITHUB_USERNAMES` set
+- `NEXT_PUBLIC_SITE_URL` set for canonical and share metadata
+- GitHub OAuth callback URL configured
+- `npm run lint`
+- `npm run build`

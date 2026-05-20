@@ -13,6 +13,7 @@ import {
   isPublicDomain,
   isPublicProject,
 } from "./normalize";
+import { withDomainLayoutFallbacks } from "./domainLayout";
 import { getPublicDomains as getStaticPublicDomains } from "./domains";
 import {
   getPublicProjects as getStaticPublicProjects,
@@ -72,9 +73,11 @@ function buildPublicPortfolioSceneData(
   projects: PortfolioProject[],
   source: PublicPortfolioSceneData["source"]
 ): PublicPortfolioSceneData {
-  const publicDomains = [...domains]
-    .filter(isPublicDomain)
-    .sort((left, right) => left.order - right.order);
+  const publicDomains = withDomainLayoutFallbacks(
+    [...domains]
+      .filter(isPublicDomain)
+      .sort((left, right) => left.order - right.order)
+  );
   const publicProjects = [...projects].filter((project) =>
     isPublicProject(project, publicDomains)
   );

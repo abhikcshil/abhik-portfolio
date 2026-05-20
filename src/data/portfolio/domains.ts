@@ -29,10 +29,10 @@ const basePortfolioDomains: Array<
     order: 1,
     href: "/software",
     visual: {
-      color: "#22d3ee",
-      glowColor: "rgba(34, 211, 238, 0.38)",
+      color: "#38bdf8",
+      glowColor: "rgba(56, 189, 248, 0.38)",
       gradient:
-        "radial-gradient(circle at 24% 20%, rgba(255,255,255,0.98) 0 7%, rgba(186,230,253,0.9) 13%, rgba(34,211,238,0.82) 29%, rgba(8,145,178,0.78) 49%, rgba(8,47,73,0.96) 73%, rgba(1,5,12,1) 100%)",
+        "radial-gradient(circle at 24% 20%, rgba(255,255,255,0.98) 0 7%, rgba(224,242,254,0.92) 13%, rgba(56,189,248,0.82) 29%, rgba(14,165,233,0.78) 49%, rgba(8,47,73,0.96) 73%, rgba(1,5,12,1) 100%)",
       orbitRadius: 16.5,
       orbitDuration: 54,
       planetSize: 52,
@@ -40,12 +40,12 @@ const basePortfolioDomains: Array<
       orbitLineOpacity: 0.42,
       zIndexHint: 34,
       surface:
-        "radial-gradient(circle at 24% 20%, rgba(255,255,255,0.98) 0 7%, rgba(186,230,253,0.9) 13%, rgba(34,211,238,0.82) 29%, rgba(8,145,178,0.78) 49%, rgba(8,47,73,0.96) 73%, rgba(1,5,12,1) 100%)",
+        "radial-gradient(circle at 24% 20%, rgba(255,255,255,0.98) 0 7%, rgba(224,242,254,0.92) 13%, rgba(56,189,248,0.82) 29%, rgba(14,165,233,0.78) 49%, rgba(8,47,73,0.96) 73%, rgba(1,5,12,1) 100%)",
       detail:
-        "linear-gradient(92deg, transparent 0 39%, rgba(236,254,255,0.24) 40% 42%, transparent 43% 100%), linear-gradient(8deg, transparent 0 50%, rgba(125,211,252,0.16) 51% 53%, transparent 54% 100%), radial-gradient(ellipse at 62% 32%, rgba(103,232,249,0.18) 0 16%, transparent 42%)",
-      rim: "rgba(186, 230, 253, 0.72)",
-      glow: "rgba(34, 211, 238, 0.38)",
-      label: "rgba(103, 232, 249, 0.88)",
+        "linear-gradient(92deg, transparent 0 39%, rgba(236,254,255,0.24) 40% 42%, transparent 43% 100%), linear-gradient(8deg, transparent 0 50%, rgba(125,211,252,0.18) 51% 53%, transparent 54% 100%), radial-gradient(ellipse at 62% 32%, rgba(125,211,252,0.2) 0 16%, transparent 42%)",
+      rim: "rgba(186, 230, 253, 0.74)",
+      glow: "rgba(56, 189, 248, 0.38)",
+      label: "rgba(125, 211, 252, 0.92)",
     },
   },
   {
@@ -59,10 +59,10 @@ const basePortfolioDomains: Array<
     order: 2,
     href: "/hardware",
     visual: {
-      color: "#fbbf24",
-      glowColor: "rgba(251, 191, 36, 0.3)",
+      color: "#14b8a6",
+      glowColor: "rgba(20, 184, 166, 0.32)",
       gradient:
-        "radial-gradient(circle at 25% 21%, rgba(255,255,245,0.98) 0 7%, rgba(254,240,138,0.82) 15%, rgba(214,211,209,0.78) 31%, rgba(120,113,108,0.78) 55%, rgba(41,37,36,0.98) 76%, rgba(5,4,3,1) 100%)",
+        "radial-gradient(circle at 25% 21%, rgba(244,255,252,0.98) 0 7%, rgba(204,251,241,0.84) 15%, rgba(45,212,191,0.74) 31%, rgba(15,118,110,0.76) 55%, rgba(17,24,39,0.98) 76%, rgba(3,7,18,1) 100%)",
       orbitRadius: 24.5,
       orbitDuration: 70,
       planetSize: 40,
@@ -70,12 +70,12 @@ const basePortfolioDomains: Array<
       orbitLineOpacity: 0.46,
       zIndexHint: 28,
       surface:
-        "radial-gradient(circle at 25% 21%, rgba(255,255,245,0.98) 0 7%, rgba(254,240,138,0.82) 15%, rgba(214,211,209,0.78) 31%, rgba(120,113,108,0.78) 55%, rgba(41,37,36,0.98) 76%, rgba(5,4,3,1) 100%)",
+        "radial-gradient(circle at 25% 21%, rgba(244,255,252,0.98) 0 7%, rgba(204,251,241,0.84) 15%, rgba(45,212,191,0.74) 31%, rgba(15,118,110,0.76) 55%, rgba(17,24,39,0.98) 76%, rgba(3,7,18,1) 100%)",
       detail:
-        "linear-gradient(135deg, transparent 0 32%, rgba(251,191,36,0.24) 33% 37%, transparent 38% 100%), linear-gradient(22deg, transparent 0 60%, rgba(245,245,244,0.14) 61% 64%, transparent 65% 100%)",
-      rim: "rgba(250, 250, 249, 0.62)",
-      glow: "rgba(251, 191, 36, 0.3)",
-      label: "rgba(253, 230, 138, 0.88)",
+        "linear-gradient(135deg, transparent 0 32%, rgba(20,184,166,0.22) 33% 37%, transparent 38% 100%), linear-gradient(22deg, transparent 0 60%, rgba(240,253,250,0.14) 61% 64%, transparent 65% 100%)",
+      rim: "rgba(153, 246, 228, 0.66)",
+      glow: "rgba(20, 184, 166, 0.32)",
+      label: "rgba(153, 246, 228, 0.92)",
     },
   },
   {
@@ -89,23 +89,23 @@ const basePortfolioDomains: Array<
     order: 3,
     href: "/music",
     visual: {
-      color: "#ec4899",
-      glowColor: "rgba(217, 70, 239, 0.34)",
+      color: "#f97316",
+      glowColor: "rgba(249, 115, 22, 0.34)",
       gradient:
-        "radial-gradient(circle at 25% 20%, rgba(255,255,255,0.98) 0 7%, rgba(253,244,255,0.9) 12%, rgba(244,114,182,0.78) 27%, rgba(168,85,247,0.78) 52%, rgba(67,56,202,0.92) 73%, rgba(9,9,18,1) 100%)",
-      orbitRadius: 32.5,
+        "radial-gradient(circle at 25% 20%, rgba(255,250,245,0.98) 0 7%, rgba(255,237,213,0.9) 12%, rgba(251,146,60,0.82) 27%, rgba(249,115,22,0.78) 52%, rgba(220,38,38,0.84) 73%, rgba(20,6,4,1) 100%)",
+      orbitRadius: 31,
       orbitDuration: 86,
       planetSize: 54,
       initialAngle: 207,
       orbitLineOpacity: 0.5,
       zIndexHint: 22,
       surface:
-        "radial-gradient(circle at 25% 20%, rgba(255,255,255,0.98) 0 7%, rgba(253,244,255,0.9) 12%, rgba(244,114,182,0.78) 27%, rgba(168,85,247,0.78) 52%, rgba(67,56,202,0.92) 73%, rgba(9,9,18,1) 100%)",
+        "radial-gradient(circle at 25% 20%, rgba(255,250,245,0.98) 0 7%, rgba(255,237,213,0.9) 12%, rgba(251,146,60,0.82) 27%, rgba(249,115,22,0.78) 52%, rgba(220,38,38,0.84) 73%, rgba(20,6,4,1) 100%)",
       detail:
-        "radial-gradient(ellipse at 66% 36%, rgba(251,146,60,0.3) 0 16%, transparent 43%), conic-gradient(from 210deg, transparent 0 36%, rgba(251,207,232,0.16) 39% 44%, transparent 47% 100%)",
-      rim: "rgba(233, 213, 255, 0.68)",
-      glow: "rgba(217, 70, 239, 0.34)",
-      label: "rgba(249, 168, 212, 0.9)",
+        "radial-gradient(ellipse at 66% 36%, rgba(251,146,60,0.34) 0 16%, transparent 43%), conic-gradient(from 210deg, transparent 0 36%, rgba(254,215,170,0.18) 39% 44%, transparent 47% 100%)",
+      rim: "rgba(254, 215, 170, 0.72)",
+      glow: "rgba(249, 115, 22, 0.34)",
+      label: "rgba(253, 186, 116, 0.92)",
     },
   },
   {
@@ -119,10 +119,10 @@ const basePortfolioDomains: Array<
     order: 4,
     href: "/visuals",
     visual: {
-      color: "#93c5fd",
-      glowColor: "rgba(147, 197, 253, 0.34)",
+      color: "#8b5cf6",
+      glowColor: "rgba(139, 92, 246, 0.34)",
       gradient:
-        "radial-gradient(circle at 25% 20%, rgba(255,255,255,0.98) 0 8%, rgba(224,242,254,0.9) 15%, rgba(147,197,253,0.78) 31%, rgba(99,102,241,0.68) 54%, rgba(49,46,129,0.94) 76%, rgba(2,6,23,1) 100%)",
+        "radial-gradient(circle at 25% 20%, rgba(255,255,255,0.98) 0 8%, rgba(243,232,255,0.92) 15%, rgba(168,85,247,0.78) 31%, rgba(139,92,246,0.72) 54%, rgba(91,33,182,0.92) 76%, rgba(8,4,24,1) 100%)",
       orbitRadius: 37,
       orbitDuration: 104,
       planetSize: 49,
@@ -130,12 +130,12 @@ const basePortfolioDomains: Array<
       orbitLineOpacity: 0.54,
       zIndexHint: 38,
       surface:
-        "radial-gradient(circle at 25% 20%, rgba(255,255,255,0.98) 0 8%, rgba(224,242,254,0.9) 15%, rgba(147,197,253,0.78) 31%, rgba(99,102,241,0.68) 54%, rgba(49,46,129,0.94) 76%, rgba(2,6,23,1) 100%)",
+        "radial-gradient(circle at 25% 20%, rgba(255,255,255,0.98) 0 8%, rgba(243,232,255,0.92) 15%, rgba(168,85,247,0.78) 31%, rgba(139,92,246,0.72) 54%, rgba(91,33,182,0.92) 76%, rgba(8,4,24,1) 100%)",
       detail:
-        "radial-gradient(ellipse at 56% 40%, rgba(255,255,255,0.26) 0 15%, transparent 44%), conic-gradient(from 140deg, transparent 0 38%, rgba(147,197,253,0.2) 41% 47%, transparent 50% 100%)",
-      rim: "rgba(219, 234, 254, 0.7)",
-      glow: "rgba(147, 197, 253, 0.34)",
-      label: "rgba(191, 219, 254, 0.92)",
+        "radial-gradient(ellipse at 56% 40%, rgba(255,255,255,0.24) 0 15%, transparent 44%), conic-gradient(from 140deg, transparent 0 38%, rgba(196,181,253,0.2) 41% 47%, transparent 50% 100%)",
+      rim: "rgba(221, 214, 254, 0.72)",
+      glow: "rgba(139, 92, 246, 0.34)",
+      label: "rgba(196, 181, 253, 0.94)",
     },
   },
 ] as Array<Omit<PortfolioDomain, "visibility" | "cms">>;

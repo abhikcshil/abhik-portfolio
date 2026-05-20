@@ -44,6 +44,7 @@ prisma/
 src/lib/db.ts
 src/lib/cms/dbDomains.ts
 src/lib/cms/dbProjects.ts
+src/lib/portfolio/domainLayout.ts
 ```
 
 ## Public vs CMS Data
@@ -58,6 +59,8 @@ src/lib/cms/dbProjects.ts
 - Client components should receive public portfolio data via props from server
   components instead of importing Prisma-backed helpers directly.
 - Static portfolio data remains available as the seed source and fallback.
+- Domain layout fallbacks in `src/lib/portfolio/domainLayout.ts` keep new public
+  planets render-safe when optional orbit fields are missing.
 
 ## Animation Notes
 
@@ -100,6 +103,7 @@ AUTH_GITHUB_ID=
 AUTH_GITHUB_SECRET=
 CMS_ADMIN_GITHUB_USERNAMES=
 DATABASE_URL=
+NEXT_PUBLIC_SITE_URL=
 ```
 
 Do not commit real secrets.
@@ -117,6 +121,17 @@ Production:
 ```text
 https://your-domain.com/api/auth/callback/github
 ```
+
+## Publish Checklist
+
+- `DATABASE_URL` set
+- `AUTH_SECRET`, `AUTH_GITHUB_ID`, and `AUTH_GITHUB_SECRET` set
+- `CMS_ADMIN_GITHUB_USERNAMES` set
+- `NEXT_PUBLIC_SITE_URL` set if you want canonical and share metadata to
+  resolve against the production domain
+- GitHub OAuth callback URL configured
+- `npm run lint`
+- `npm run build`
 
 ## Deployment Notes
 
@@ -139,5 +154,5 @@ For local Prisma commands, keeping `DATABASE_URL` in `.env.local` is fine. The
 Prisma config loads both `.env` and `.env.local`.
 
 Public database reads currently use a short cache window of 60 seconds, and
-admin project saves revalidate the homepage, affected project paths, affected
-domain paths, and the shared public portfolio cache tag.
+admin project and domain saves revalidate the homepage, affected project paths,
+affected domain paths, and the shared public portfolio cache tag.

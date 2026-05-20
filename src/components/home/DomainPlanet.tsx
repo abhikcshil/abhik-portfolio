@@ -141,9 +141,12 @@ export function DomainPlanet({ domain, onOpenDomain }: DomainPlanetProps) {
       >
         <span className="planet-billboard absolute inset-0 block rounded-full">
           <PlanetVisual className="absolute inset-0 block rounded-full transition duration-300 group-hover:scale-110 group-focus-visible:scale-110" />
-          <span className="planet-label pointer-events-none absolute left-1/2 top-full mt-3 -translate-x-1/2 whitespace-nowrap rounded-full px-3 py-1 text-[0.68rem] font-medium uppercase tracking-[0.18em] transition duration-300 group-hover:-translate-y-0.5 group-focus-visible:-translate-y-0.5">
+        </span>
+        <span className="planet-tag-stack mt-3 transition duration-300 group-hover:-translate-y-0.5 group-focus-visible:-translate-y-0.5">
+          <span className="planet-label whitespace-nowrap rounded-full px-3.5 py-1.5">
             {domain.label}
           </span>
+          <span className="orbit-tag-hint mt-1.5">Click to view more</span>
         </span>
       </Link>
     </div>

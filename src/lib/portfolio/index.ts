@@ -13,6 +13,7 @@ export * from "./schema";
 export * from "./domains";
 export * from "./projects";
 export * from "./moonLayout";
+export * from "./domainLayout";
 export * from "./normalize";
 export * from "./validation";
 export * from "./cms";

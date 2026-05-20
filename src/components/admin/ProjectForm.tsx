@@ -71,6 +71,10 @@ export function ProjectForm({
     saveProjectAction,
     INITIAL_PROJECT_FORM_STATE
   );
+  const fieldErrors = Object.values(state.fieldErrors ?? {}).filter(Boolean);
+  const publicRouteHref = initialValues.slug
+    ? `/projects/${initialValues.slug}`
+    : null;
 
   return (
     <form action={formAction} className="grid gap-6">
@@ -82,12 +86,45 @@ export function ProjectForm({
 
       {state.message ? (
         <section className="rounded-[1.75rem] border border-rose-300/20 bg-rose-400/10 px-5 py-4 text-sm text-rose-100">
-          {state.message}
+          <p>{state.message}</p>
+          {fieldErrors.length > 0 ? (
+            <ul className="mt-3 list-disc space-y-1 pl-5">
+              {fieldErrors.map((error) => (
+                <li key={error}>{error}</li>
+              ))}
+            </ul>
+          ) : null}
         </section>
       ) : null}
 
       <section className="rounded-[2rem] border border-white/10 bg-white/5 p-6">
-        <h2 className="text-xl font-semibold text-white">Project Basics</h2>
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+          <div>
+            <h2 className="text-xl font-semibold text-white">Project Basics</h2>
+            <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-300">
+              Manage the public project title, summary, slug, and publishing
+              state used across the homepage and project routes.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap gap-3">
+            {publicRouteHref ? (
+              <Link
+                href={publicRouteHref}
+                className="inline-flex rounded-full border border-emerald-300/20 bg-emerald-400/10 px-4 py-2 text-xs font-medium uppercase tracking-[0.16em] text-emerald-100 transition hover:border-emerald-300/40 hover:bg-emerald-400/16"
+              >
+                Open Public Route
+              </Link>
+            ) : null}
+            <Link
+              href={cancelHref}
+              className="inline-flex rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-medium uppercase tracking-[0.16em] text-slate-200 transition hover:border-white/20 hover:bg-white/10"
+            >
+              Back to Projects
+            </Link>
+          </div>
+        </div>
+
         <div className="mt-5 grid gap-5 md:grid-cols-2">
           <label className="block">
             <span className="text-sm text-slate-300">Title</span>
@@ -213,6 +250,10 @@ export function ProjectForm({
 
       <section className="rounded-[2rem] border border-white/10 bg-white/5 p-6">
         <h2 className="text-xl font-semibold text-white">Project Links</h2>
+        <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-300">
+          Optional links can point visitors to live builds, GitHub repos, demos,
+          or deeper case studies.
+        </p>
         <div className="mt-5 grid gap-5 md:grid-cols-2">
           <label className="block">
             <span className="text-sm text-slate-300">Live</span>
@@ -258,6 +299,10 @@ export function ProjectForm({
 
       <section className="rounded-[2rem] border border-white/10 bg-white/5 p-6">
         <h2 className="text-xl font-semibold text-white">Detailed Content</h2>
+        <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-300">
+          These fields feed the longer-form project content model as the public
+          project pages evolve.
+        </p>
         <div className="mt-5 grid gap-5">
           <label className="block">
             <span className="text-sm text-slate-300">Overview</span>
@@ -344,6 +389,9 @@ export function ProjectForm({
           Select the domains this project belongs to and set the moon ordering
           for each placement. Public projects should have at least one selected
           placement.
+        </p>
+        <p className="mt-2 text-xs uppercase tracking-[0.16em] text-slate-500">
+          Order 1 is closest to the planet.
         </p>
         <FieldError state={state} field="domains" />
         <FieldError state={state} field="domainOrders" />

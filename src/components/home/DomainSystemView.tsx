@@ -6,6 +6,7 @@ import { getMoonLayout } from "@/src/lib/portfolio";
 import { getOrbitAngle, getOrbitUnitPosition } from "./orbitMath";
 import { PlanetVisual } from "./PlanetVisual";
 import { ProjectMoon } from "./ProjectMoon";
+import { ProjectPreviewPanel } from "./ProjectPreviewPanel";
 import { DEFAULT_SCENE_SIZE, getSceneSize } from "./sceneSizing";
 
 type DomainSystemViewProps = {
@@ -25,6 +26,7 @@ export function DomainSystemView({
 }: DomainSystemViewProps) {
   const [sceneSize, setSceneSize] = useState(DEFAULT_SCENE_SIZE);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
+  const [activeProjectId, setActiveProjectId] = useState<string | null>(null);
 
   useEffect(() => {
     function updateSceneSize() {
@@ -78,6 +80,14 @@ export function DomainSystemView({
       ).sort((a, b) => a - b),
     [moonLayouts, systemScale]
   );
+  const previewProjectId = isVisible ? activeProjectId : null;
+  const activeProjectIndex = previewProjectId
+    ? projects.findIndex((project) => project.id === previewProjectId)
+    : -1;
+  const activeProject =
+    activeProjectIndex >= 0 ? projects[activeProjectIndex] : null;
+  const activeMoonLayout =
+    activeProjectIndex >= 0 ? moonLayouts[activeProjectIndex] : null;
 
   return (
     <div className="domain-system-view absolute inset-0">
@@ -95,9 +105,15 @@ export function DomainSystemView({
         <p className="domain-system-kicker">Domain Focus</p>
         <h2 className="domain-system-title">{domain.label}</h2>
         <p className="domain-system-description">
-          Project moons orbiting the {domain.label.toLowerCase()} body.
+          {domain.description || "Explore projects orbiting this domain."}
         </p>
       </div>
+
+      <ProjectPreviewPanel
+        activeProject={activeProject}
+        activeLayout={activeMoonLayout}
+        domain={domain}
+      />
 
       <div className="domain-system-stage absolute inset-0">
         {orbitRadii.map((radius) => (
@@ -132,7 +148,7 @@ export function DomainSystemView({
         >
           <span className="domain-focus-halo absolute inset-[-22%] rounded-full" />
           <PlanetVisual className="absolute inset-0 block rounded-full" />
-          <span className="domain-focus-label absolute left-1/2 top-full mt-5 -translate-x-1/2 whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold uppercase tracking-[0.18em]">
+          <span className="domain-focus-label absolute left-1/2 top-full mt-5 -translate-x-1/2 whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold">
             {domain.label}
           </span>
         </div>
@@ -164,6 +180,8 @@ export function DomainSystemView({
               index={index}
               isVisible={isVisible}
               labelVisibility={labelVisibility}
+              onPreviewStart={setActiveProjectId}
+              onPreviewEnd={() => setActiveProjectId(null)}
             />
           );
         })}
